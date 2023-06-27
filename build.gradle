@@ -2,7 +2,11 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.1'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	// Restdocs extension
 	id 'com.epages.restdocs-api-spec' version '0.17.1'
+	// Swagger generator
+	id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
 group = 'com.rocket'
@@ -24,16 +28,14 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Jasypt
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-
 	// JPA + MySQL
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// QueryDSL
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -55,11 +57,14 @@ openapi3 {
 	format = 'yaml'
 }
 
-tasks.register("copyOasToSwagger", Copy) {
-	delete("src/main/resources/static/swagger-ui/openapi3.yaml")
-	from("$buildDir/api-spec/openapi3.yaml"){}
-	into("src/main/resources/static/swagger-ui/.")
+task copyOasToSwagger {
 	dependsOn("openapi3")
+
+	delete("src/main/resources/static/swagger-ui/openapi3.yaml")
+	copy {
+		from "$buildDir/api-spec/openapi3.yaml"
+		into "src/main/resources/static/swagger-ui/."
+	}
 }
 
 tasks.named('test') {
