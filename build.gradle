@@ -1,7 +1,7 @@
 buildscript {
 	// restdocsApiSpecVersion 버전 변수 설정
 	ext {
-		restdocsApiSpecVersion = '0.15.3'
+		restdocsApiSpecVersion = '0.17.1'
 		snippetsDir = file('build/generated-snippets')
 	}
 }
