@@ -3,6 +3,7 @@ server:
     8080
 
 spring:
+  # MySQL 접속 정보 설정
   datasource:
     url: ${LOCAL_DB_URL}
     username: ${LOCAL_DB_USERNAME}
@@ -18,3 +19,39 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  # Security 설정
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+            client-authentication-method: POST
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+              - birthday
+            client_name: kakao
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
+
+
+  jwt:
+    token:
+      secret-key: ${JWT_SECRET_KEY}
+      access-token:
+        expire-length: 1800000
+      refresh-token:
+        expire-length: 1209600000
