@@ -2,20 +2,16 @@ buildscript {
 	// restdocsApiSpecVersion 버전 변수 설정
 	ext {
 		restdocsApiSpecVersion = '0.17.1'
-		snippetsDir = file('build/generated-snippets')
+		springCloudVersion = '2022.0.0'
 	}
 }
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.1'
+	id 'org.springframework.boot' version '3.0.0'
 	id 'io.spring.dependency-management' version '1.1.0'
 
 	// Restdocs extension
-//	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 	id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
-
-	// Swagger generator
-//	id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
 group = 'com.rocket'
@@ -54,32 +50,37 @@ dependencies {
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 	// Rest Docs
-//	implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
-//	testImplementation 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
 	// Security & OAuth2
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	testImplementation 'org.springframework.security:spring-security-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//	testImplementation 'org.springframework.security:spring-security-test'
 
 	// JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// Open Feign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	// Configuration Processor
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 tasks.named('test') {
-//	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
-
-//tasks.asciidoctor {
-//	inputs.dir snippetsDir
-//	dependsOn(tasks.test)
-//}
 
 task copyOasToSwagger {
 	dependsOn 'openapi3'
@@ -102,5 +103,3 @@ openapi3 {
 	version = '0.1.0'
 	format = 'yaml'
 }
-
-

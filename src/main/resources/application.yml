@@ -1,0 +1,12 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    com.rocket.birthday.api.auth.AuthClient: trace
+
+  kakao:
+    client_id: ${KAKAO_CLIENT_ID}
+    redirect_uri: ${KAKAO_REDIRECT_URI}
+    grant-type: ${KAKAO_GRANT_TYPE}
