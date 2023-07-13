@@ -2,10 +2,11 @@ package com.rocket.birthday.api.auth;
 
 import com.rocket.birthday.api.auth.request.KakaoAuthorizationCodeRequest;
 import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
-import com.rocket.birthday.api.auth.request.KakaoUserInfoRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.config.PropertiesConfiguration;
+import com.rocket.birthday.service.auth.KakaoAPIClient;
+import com.rocket.birthday.service.auth.KakaoAuthClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
