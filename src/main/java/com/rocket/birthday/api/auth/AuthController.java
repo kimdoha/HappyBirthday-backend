@@ -1,48 +1,36 @@
 package com.rocket.birthday.api.auth;
 
 import com.rocket.birthday.api.auth.request.KakaoAuthorizationCodeRequest;
-import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
+import com.rocket.birthday.api.auth.request.KakaoUserInfoRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
-import com.rocket.birthday.config.PropertiesConfiguration;
-import com.rocket.birthday.service.auth.KakaoAPIClient;
-import com.rocket.birthday.service.auth.KakaoAuthClient;
+import com.rocket.birthday.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping(value = "/api/v1/auth")
 @RequiredArgsConstructor
 @RestController
 public class AuthController {
 
-  private final KakaoAuthClient kakaoAuthClient;
-  private final KakaoAPIClient kakaoAPIClient;
-  private final PropertiesConfiguration propertiesConfiguration;
+  private final AuthService authService;
 
   // TODO KAKAO 인증 코드를 통한 OAuth Token 발급
+  //  [{"error":"invalid_grant","error_description":"authorization code not found for
   @PostMapping("/kakao/token")
   public KakaoOAuthTokenView getKaKaoAuthorizationToken(
       @RequestBody KakaoAuthorizationCodeRequest request
   ) {
-
-    KakaoOAuthTokenRequest body = KakaoOAuthTokenRequest.builder()
-        .grant_type(propertiesConfiguration.getGrant_type())
-        .client_id(propertiesConfiguration.getClient_id())
-        .redirect_uri(propertiesConfiguration.getRedirect_uri())
-        .code(request.getCode())
-        .build();
-
-    return kakaoAuthClient.getKakaoOAuthToken(body);
+    return authService.getKakaoOAuthToken(request.getCode());
   }
 
-  // TODO OAuth Token 을 통한 카카오 사용자 정보 가져오기
-  @GetMapping("/kakao/user-info")
-  public KakaoUserInfoView getKakaoUserInfo(
-      @RequestParam String accessToken
-  ) {
-    return kakaoAPIClient.getKakaoUserInfo("Bearer " + accessToken);
+  // TODO Example
+  // ERROR [{"msg":"this access token is already expired","code":-401}]
+  @PostMapping("/kakao/info")
+  public KakaoUserInfoView getKakaoUserInfo(@RequestBody KakaoUserInfoRequest request) {
+    return authService.getKakaoUserInfo(request.getAccessToken());
   }
 }
