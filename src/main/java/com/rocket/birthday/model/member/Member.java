@@ -1,13 +1,12 @@
 package com.rocket.birthday.model.member;
 
-import com.rocket.birthday.model.member.vo.ProviderType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
@@ -26,21 +25,19 @@ import org.springframework.data.annotation.LastModifiedDate;
 @AllArgsConstructor
 @Table(
     name = "members",
-    uniqueConstraints = @UniqueConstraint(
-        name="member_unique_column",
-        columnNames = { "provider_id", "provider_type", "email", "name"}))
+    uniqueConstraints = {
+        @UniqueConstraint( name = "unique_member_email", columnNames = { "email "}),
+        @UniqueConstraint( name = "unique_member_name", columnNames = { "name "}),
+    }
+)
 @Entity
 public class Member {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "provider_id")
-  private String providerId;
-
-  @Column(name = "provider_type")
-  @Enumerated(EnumType.STRING)
-  private ProviderType providerType;
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
+  private MemberProvider memberProvider;
 
   @Column(nullable = false)
   private String email;
