@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -21,25 +22,20 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(
-    name = "members_deleted",
-    uniqueConstraints = {
-        @UniqueConstraint( name = "unique_member_email", columnNames = { "email "}),
-        @UniqueConstraint( name = "unique_member_name", columnNames = { "name "}),
-    }
-)
+@Table(name = "members_deleted")
 @Entity
 public class MemberDeleted {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_provider_id")
   private MemberProvider memberProvider;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String email;
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String name;
   @Column(name = "profile_image_url")
   private String profileImageUrl;

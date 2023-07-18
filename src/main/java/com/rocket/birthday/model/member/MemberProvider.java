@@ -19,8 +19,11 @@ public class MemberProvider {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "memberProvider")
   private Member member;
+
+  @OneToOne(mappedBy = "memberProvider")
+  private MemberDeleted memberDeleted;
 
   @Column(name = "provider_id")
   private String providerId;
