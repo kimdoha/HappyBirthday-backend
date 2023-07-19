@@ -1,19 +1,20 @@
-//package com.rocket.birthday.service.member;
-//
-//import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
-//import com.rocket.birthday.model.member.Member;
-//import com.rocket.birthday.repository.MemberRepository;
-//import com.rocket.birthday.service.auth.AuthService;
-//import java.util.Optional;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Service;
-//
-//@RequiredArgsConstructor
-//@Service
-//public class MemberService {
-//  private final AuthService authService;
-//  private final MemberRepository memberRepository;
-//
+package com.rocket.birthday.service.member;
+
+import com.rocket.birthday.model.member.Member;
+import com.rocket.birthday.model.member.MemberProvider;
+import com.rocket.birthday.model.member.vo.ProviderType;
+import com.rocket.birthday.repository.MemberProviderRepository;
+import com.rocket.birthday.repository.MemberRepository;
+import com.rocket.birthday.service.auth.AuthService;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class MemberService {
+
+
 //  Member signUpMember() {
 //    Member member = Member.builder()
 //        .name(  )
@@ -36,7 +37,7 @@
 //    } else {
 //
 //    }
-//    // 토큰 정보 발급
-//
-//  }
-//}
+    // 토큰 정보 발급
+
+  // }
+}

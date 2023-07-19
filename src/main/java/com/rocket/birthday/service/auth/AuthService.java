@@ -4,8 +4,11 @@ import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.config.PropertiesConfiguration;
+import com.rocket.birthday.model.member.MemberProvider;
+import com.rocket.birthday.model.member.vo.ProviderType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -32,4 +35,5 @@ public class AuthService {
   public KakaoUserInfoView getKakaoUserInfo(String accessToken) {
     return kakaoAPIClient.getKakaoUserInfo( BEARER + accessToken, PROPERTY_KEYS);
   }
+
 }

@@ -3,6 +3,7 @@ buildscript {
 	ext {
 		restdocsApiSpecVersion = '0.17.1'
 		springCloudVersion = '2022.0.0'
+		jwtVersion = '0.11.5'
 	}
 }
 plugins {
@@ -54,15 +55,14 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
 
-	// Security & OAuth2
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-//	testImplementation 'org.springframework.security:spring-security-test'
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
 
 	// JWT
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation "io.jsonwebtoken:jjwt-api:${jwtVersion}"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
 
 	// Open Feign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'

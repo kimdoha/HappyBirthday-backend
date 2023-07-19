@@ -6,7 +6,15 @@ logging:
   level:
     com.rocket.birthday.api.auth.AuthClient: trace
 
-  kakao:
-    client_id: ${KAKAO_CLIENT_ID}
-    redirect_uri: ${KAKAO_REDIRECT_URI}
-    grant-type: ${KAKAO_GRANT_TYPE}
+kakao:
+  client_id: ${KAKAO_CLIENT_ID}
+  redirect_uri: ${KAKAO_REDIRECT_URI}
+  grant-type: ${KAKAO_GRANT_TYPE}
+
+jwt:
+  token:
+    secret-key: ${JWT_SECRET_KEY}
+  access-token:
+    expire-length: 1800000
+  refresh-token:
+    expire-length: 1209600000
