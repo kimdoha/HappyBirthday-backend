@@ -13,8 +13,5 @@ kakao:
 
 jwt:
   token:
-    secret-key: ${JWT_SECRET_KEY}
-  access-token:
-    expire-length: 1800000
-  refresh-token:
-    expire-length: 1209600000
+    secret_key: ${JWT_SECRET_KEY}
+    expire_time: 1800000
