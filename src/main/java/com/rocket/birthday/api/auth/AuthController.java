@@ -5,7 +5,9 @@ import com.rocket.birthday.api.auth.request.KakaoUserInfoRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.service.auth.AuthService;
+import com.rocket.birthday.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final AuthService authService;
+  private final MemberService memberService;
 
   // TODO KAKAO 인증 코드를 통한 OAuth Token 발급
   //  [{"error":"invalid_grant","error_description":"authorization code not found for
@@ -32,5 +35,15 @@ public class AuthController {
   @PostMapping("/kakao/info")
   public KakaoUserInfoView getKakaoUserInfo(@RequestBody KakaoUserInfoRequest request) {
     return authService.getKakaoUserInfo(request.getAccessToken());
+  }
+
+  @PostMapping("/signUp")
+  public String signUp() {
+    return "user/sign-up";
+  }
+
+  @GetMapping("/signIn")
+  public String signIn() {
+    return "user/sign-in";
   }
 }

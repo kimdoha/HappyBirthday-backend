@@ -11,7 +11,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "members_provider")
 @Entity
 public class MemberProvider {
@@ -26,7 +34,7 @@ public class MemberProvider {
   private MemberDeleted memberDeleted;
 
   @Column(name = "provider_id")
-  private String providerId;
+  private Long providerId;
 
   @Column(name = "provider_type")
   @Enumerated(EnumType.STRING)
