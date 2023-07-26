@@ -61,4 +61,8 @@ public class Member {
     this.birthday = birthday;
     return this;
   }
+
+  public boolean notExist() {
+    return this.equals(null);
+  }
 }

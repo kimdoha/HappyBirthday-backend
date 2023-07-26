@@ -34,7 +34,7 @@ public class MemberProvider {
   private MemberDeleted memberDeleted;
 
   @Column(name = "provider_id")
-  private Long providerId;
+  private String providerId;
 
   @Column(name = "provider_type")
   @Enumerated(EnumType.STRING)

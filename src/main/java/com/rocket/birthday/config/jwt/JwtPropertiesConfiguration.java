@@ -1,4 +1,4 @@
-package com.rocket.birthday.config;
+package com.rocket.birthday.config.jwt;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

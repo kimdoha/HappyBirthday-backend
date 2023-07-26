@@ -78,9 +78,9 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
 
 task copyOasToSwagger {
 	dependsOn 'openapi3'

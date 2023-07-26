@@ -1,6 +1,6 @@
 package com.rocket.birthday.api.jwt;
 
-import com.rocket.birthday.config.JwtPropertiesConfiguration;
+import com.rocket.birthday.config.jwt.JwtPropertiesConfiguration;
 import com.rocket.birthday.service.member.dtos.MemberDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

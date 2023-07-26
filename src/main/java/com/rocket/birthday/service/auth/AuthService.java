@@ -5,7 +5,7 @@ import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.auth.response.MemberTokenView;
 import com.rocket.birthday.api.jwt.JwtTokenProvider;
-import com.rocket.birthday.config.KakaoPropertiesConfiguration;
+import com.rocket.birthday.config.auth.KakaoPropertiesConfiguration;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.MemberProvider;
 import com.rocket.birthday.model.member.vo.ProviderType;
@@ -13,10 +13,12 @@ import com.rocket.birthday.service.member.MemberProviderService;
 import com.rocket.birthday.service.member.MemberService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
   private static final String BEARER = "Bearer ";
@@ -32,9 +34,9 @@ public class AuthService {
   public KakaoOAuthTokenView getKakaoOAuthToken(String code) {
 
     KakaoOAuthTokenRequest body = KakaoOAuthTokenRequest.builder()
-        .grant_type( kakaoPropertiesConfiguration.getGrant_type())
-        .client_id( kakaoPropertiesConfiguration.getClient_id())
-        .redirect_uri( kakaoPropertiesConfiguration.getRedirect_uri())
+        .grant_type(kakaoPropertiesConfiguration.getGrant_type())
+        .client_id(kakaoPropertiesConfiguration.getClient_id())
+        .redirect_uri(kakaoPropertiesConfiguration.getRedirect_uri())
         .code(code)
         .build();
 
@@ -42,25 +44,27 @@ public class AuthService {
   }
 
   public KakaoUserInfoView getKakaoUserInfo(String accessToken) {
-    return kakaoAPIClient.getKakaoUserInfo( BEARER + accessToken, PROPERTY_KEYS);
+    return kakaoAPIClient.getKakaoUserInfo(
+        BEARER + accessToken,
+        PROPERTY_KEYS
+    );
   }
 
-  public MemberTokenView signUpMember(String code) {
-    KakaoOAuthTokenView kakaoOAuthToken = getKakaoOAuthToken(code);
-    KakaoUserInfoView kakaoUser = getKakaoUserInfo(kakaoOAuthToken.getAccess_token());
+  public MemberTokenView signInMember(String code) {
+    KakaoOAuthTokenView oAuthToken = getKakaoOAuthToken(code);
+    log.info(oAuthToken.getAccess_token());
+    KakaoUserInfoView kakaoUserInfo = getKakaoUserInfo(oAuthToken.getAccess_token());
+    Member member = memberService.findMemberByProvider(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO);
 
-    if(kakaoUser.getId() == null ||
-        !kakaoUser.getKakao_account().getHas_email()) {
-        // 오류
+    if(member.notExist()) {
+      signUpMember(kakaoUserInfo);
     }
+    return getMemberToken(member);
+  }
 
-    MemberProvider memberProvider = memberProviderService.createMemberProvider(kakaoUser.getId(), ProviderType.KAKAO);
-
-    Member member = memberService.createMember(kakaoUser.getKakao_account().getEmail(),
-        kakaoUser.getKakao_account().getProfile().getNickname(),
-        kakaoUser.getKakao_account().getProfile().getProfile_image_url(),
-        LocalDate.now(),
-        memberProvider);
+  public MemberTokenView signUpMember(KakaoUserInfoView kakaoUserInfo) {
+    MemberProvider memberProvider = memberProviderService.create(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO);
+    Member member = memberService.create(kakaoUserInfo, memberProvider);
 
     return getMemberToken(member);
   }

@@ -1,4 +1,4 @@
-package com.rocket.birthday.config;
+package com.rocket.birthday.config.jwt;
 
 import com.rocket.birthday.api.jwt.JwtTokenFilter;
 import com.rocket.birthday.api.jwt.JwtTokenProvider;
