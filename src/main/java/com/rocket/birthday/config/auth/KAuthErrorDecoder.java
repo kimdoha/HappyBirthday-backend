@@ -2,14 +2,13 @@ package com.rocket.birthday.config.auth;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rocket.birthday.common.exception.KAuthErrorCode;
+import com.rocket.birthday.common.exception.enums.KAuthErrorCode;
 import com.rocket.birthday.common.exception.custom.auth.KAuthException;
 import com.rocket.birthday.config.auth.response.KAuthErrorResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import java.io.IOException;
 import java.io.InputStream;
-import lombok.RequiredArgsConstructor;
 
 public class KAuthErrorDecoder implements ErrorDecoder {
   @Override

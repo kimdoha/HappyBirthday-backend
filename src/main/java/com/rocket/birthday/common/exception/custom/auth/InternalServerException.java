@@ -1,12 +1,11 @@
 package com.rocket.birthday.common.exception.custom.auth;
 
-import static com.rocket.birthday.common.exception.BaseErrorCode.KAKAO_INTERNAL_SERVER_ERROR;
-
 import com.rocket.birthday.common.exception.BusinessException;
-import com.rocket.birthday.common.exception.BaseErrorCode;
+import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 
 public class InternalServerException extends BusinessException {
+  public static final InternalServerException EXCEPTION = new InternalServerException(BaseErrorCode.INNER_SERVER_ERROR);
   public InternalServerException(BaseErrorCode errorCode) {
-    super(KAKAO_INTERNAL_SERVER_ERROR);
+    super(errorCode);
   }
 }

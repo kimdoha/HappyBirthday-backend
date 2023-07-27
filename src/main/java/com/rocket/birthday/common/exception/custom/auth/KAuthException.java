@@ -1,6 +1,6 @@
 package com.rocket.birthday.common.exception.custom.auth;
 
-import com.rocket.birthday.common.exception.KAuthErrorCode;
+import com.rocket.birthday.common.exception.enums.KAuthErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

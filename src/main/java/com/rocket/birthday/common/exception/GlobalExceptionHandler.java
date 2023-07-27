@@ -1,6 +1,7 @@
 package com.rocket.birthday.common.exception;
 
 import com.rocket.birthday.common.exception.dto.ErrorResponse;
+import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

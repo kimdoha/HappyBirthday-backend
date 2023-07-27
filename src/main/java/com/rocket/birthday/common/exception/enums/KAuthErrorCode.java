@@ -1,4 +1,4 @@
-package com.rocket.birthday.common.exception;
+package com.rocket.birthday.common.exception.enums;
 
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.BAD_REQUEST;
