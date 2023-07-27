@@ -1,16 +1,11 @@
 package com.rocket.birthday.service.member;
 
-import static com.rocket.birthday.common.exception.ErrorCode.MEMBER_NOT_FOUND;
-
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
-import com.rocket.birthday.common.exception.ErrorCode;
-import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.MemberProvider;
 import com.rocket.birthday.model.member.vo.ProviderType;
 import com.rocket.birthday.repository.MemberRepository;
 import java.time.LocalDate;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
