@@ -1,4 +1,4 @@
-package com.rocket.birthday.service.auth;
+package com.rocket.birthday.service.oauth;
 
 import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
@@ -7,14 +7,13 @@ import com.rocket.birthday.api.auth.response.MemberTokenView;
 import com.rocket.birthday.api.jwt.JwtTokenProvider;
 import com.rocket.birthday.config.auth.KakaoPropertiesConfiguration;
 import com.rocket.birthday.model.member.Member;
-import com.rocket.birthday.model.member.MemberProvider;
 import com.rocket.birthday.model.member.vo.ProviderType;
-import com.rocket.birthday.service.member.MemberProviderService;
+import com.rocket.birthday.model.oauth.OAuthProvider;
 import com.rocket.birthday.service.member.MemberService;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 @Slf4j
 @Service
@@ -28,7 +27,7 @@ public class AuthService {
   private final KakaoAPIClient kakaoAPIClient;
   private final KakaoPropertiesConfiguration kakaoPropertiesConfiguration;
   private final MemberService memberService;
-  private final MemberProviderService memberProviderService;
+  private final OAuthProviderService OAuthProviderService;
   private final JwtTokenProvider jwtTokenProvider;
 
   public KakaoOAuthTokenView getKakaoOAuthToken(String code) {
@@ -54,23 +53,27 @@ public class AuthService {
     KakaoOAuthTokenView oAuthToken = getKakaoOAuthToken(code);
     log.info(oAuthToken.getAccess_token());
     KakaoUserInfoView kakaoUserInfo = getKakaoUserInfo(oAuthToken.getAccess_token());
-    Member member = memberService.findMemberByProvider(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO);
+    var authInfo = OAuthProviderService.findOneBy(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO);
 
-    if(member.notExist()) {
-      signUpMember(kakaoUserInfo);
+    if(authInfo == null) {
+      return signUpMember(kakaoUserInfo);
     }
+
+    Member member = memberService.findOne(authInfo.getId());
     return getMemberToken(member);
   }
 
   public MemberTokenView signUpMember(KakaoUserInfoView kakaoUserInfo) {
-    MemberProvider memberProvider = memberProviderService.create(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO);
-    Member member = memberService.create(kakaoUserInfo, memberProvider);
+    Member member = memberService.create(kakaoUserInfo);
+    OAuthProviderService.create(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO, member);
 
     return getMemberToken(member);
   }
 
-  private MemberTokenView getMemberToken(Member member) {
-    String token = jwtTokenProvider.generateToken(member.getId(), member.getName());
+  public MemberTokenView getMemberToken(Member member) {
+    log.info("memberInfo : " + member.getNickname() + " " + member.getId());
+    String token = jwtTokenProvider.generateToken(member.getId(), member.getNickname());
+    log.info("token : " + token);
     return MemberTokenView.builder()
         .id(member.getId())
         .token(token)

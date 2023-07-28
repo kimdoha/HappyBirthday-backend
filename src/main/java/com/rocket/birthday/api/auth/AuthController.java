@@ -5,7 +5,7 @@ import com.rocket.birthday.api.auth.request.KakaoUserInfoRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.auth.response.MemberTokenView;
-import com.rocket.birthday.service.auth.AuthService;
+import com.rocket.birthday.service.oauth.AuthService;
 import com.rocket.birthday.service.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

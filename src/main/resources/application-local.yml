@@ -20,15 +20,6 @@ spring:
       hibernate:
         format_sql: true
 
-  # JWT 설정
-  jwt:
-    token:
-      secret-key: ${JWT_SECRET_KEY}
-      access-token:
-        expire-length: 1800000
-      refresh-token:
-        expire-length: 1209600000
-
   # OpenFeign Content Type 설정
   cloud:
     openfeign:

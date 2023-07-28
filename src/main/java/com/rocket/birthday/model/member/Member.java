@@ -2,16 +2,13 @@ package com.rocket.birthday.model.member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,15 +28,11 @@ public class Member {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "member_provider_id")
-  private MemberProvider memberProvider;
-
   @Column(nullable = false, unique = true)
   private String email;
 
   @Column(nullable = false, unique = true)
-  private String name;
+  private String nickname;
 
   @Column(name = "profile_image_url")
   private String profileImageUrl;
@@ -49,20 +42,17 @@ public class Member {
 
   @CreatedDate
   @Column(name = "created_at", updatable = false)
-  private ZonedDateTime createdAt;
+  private LocalDateTime createdAt;
 
   @LastModifiedDate
   @Column(name = "updated_at")
-  private ZonedDateTime updatedAt;
+  private LocalDateTime updatedAt;
 
-  public Member update(String name, String profileImageUrl, LocalDate birthday) {
-    this.name = name;
+  public Member update(String nickname, String profileImageUrl, LocalDate birthday) {
+    this.nickname = nickname;
     this.profileImageUrl = profileImageUrl;
     this.birthday = birthday;
+    this.updatedAt = LocalDateTime.now();
     return this;
-  }
-
-  public boolean notExist() {
-    return this.equals(null);
   }
 }
