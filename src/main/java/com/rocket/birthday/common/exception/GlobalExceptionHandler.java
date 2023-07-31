@@ -2,6 +2,7 @@ package com.rocket.birthday.common.exception;
 
 import com.rocket.birthday.common.exception.custom.auth.KAuthException;
 import com.rocket.birthday.common.exception.dto.ErrorResponse;
+import com.rocket.birthday.common.exception.dto.KAuthErrorResponse;
 import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,17 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(KAuthException.class)
-  public ResponseEntity<ErrorResponse> kAuthExceptionHandler(
+  public ResponseEntity<KAuthErrorResponse> kAuthExceptionHandler(
       KAuthException e,
       HttpServletRequest request
   ) {
-    ErrorResponse errorResponse = ErrorResponse.builder()
+    KAuthErrorResponse errorResponse = KAuthErrorResponse.builder()
         .code(e.getErrorCode().getCode())
+        .errorCode(e.getErrorCode().getErrorCode())
+        .error(e.getErrorCode().getError())
         .reason(e.getErrorCode().getReason())
         .build();
+
     return ResponseEntity.status(HttpStatus.valueOf(e.getErrorCode().getCode()))
         .body(errorResponse);
   }
