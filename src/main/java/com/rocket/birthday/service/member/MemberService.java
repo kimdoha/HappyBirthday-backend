@@ -28,7 +28,6 @@ public class MemberService {
         .email(kakaoUserInfo.getKakao_account().getEmail())
         .nickname(kakaoUserInfo.getKakao_account().getProfile().getNickname())
         .profileImageUrl(kakaoUserInfo.getKakao_account().getProfile().getProfile_image_url())
-        .birthday(LocalDate.now())
         .build();
 
     return memberRepository.save(member);

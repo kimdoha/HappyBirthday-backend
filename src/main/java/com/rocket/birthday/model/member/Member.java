@@ -40,7 +40,6 @@ public class Member {
   @Column(name = "profile_image_url")
   private String profileImageUrl;
 
-  @Column(nullable = false)
   private LocalDate birthday;
 
   @CreatedDate
