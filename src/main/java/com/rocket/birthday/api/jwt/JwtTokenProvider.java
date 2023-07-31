@@ -1,5 +1,8 @@
 package com.rocket.birthday.api.jwt;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.AUTHORIZATION_HEADER;
+import static com.rocket.birthday.common.constant.BirthdayConstants.BEARER;
+
 import com.rocket.birthday.config.jwt.JwtPropertiesConfiguration;
 import com.rocket.birthday.service.member.dtos.MemberDetails;
 import io.jsonwebtoken.Claims;
@@ -14,26 +17,22 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-  private static final String BEARER = "Bearer ";
-  private static final String AUTHORIZATION_HEADER = "Authorization";
 
   private final JwtPropertiesConfiguration propertiesConfiguration;
 
   public String generateToken(Long memberId, String memberName) {
-
     Date now = new Date();
-    Date expireDate = new Date(now.getTime() + propertiesConfiguration.getExpire_time());
+    Date expireDate = new Date( now.getTime() + propertiesConfiguration.getExpireTime() );
 
     return Jwts.builder()
         .setSubject(memberName)
         .claim("memberId", memberId)
         .setIssuedAt(now)
-        .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecret_key())
+        .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecretKey())
         .setExpiration(expireDate)
         .compact();
   }
@@ -48,7 +47,7 @@ public class JwtTokenProvider {
 
   public Claims getClaims(String token) {
     return Jwts.parserBuilder()
-        .setSigningKey(propertiesConfiguration.getSecret_key())
+        .setSigningKey(propertiesConfiguration.getSecretKey())
         .build()
         .parseClaimsJwt(token)
         .getBody();
@@ -67,7 +66,7 @@ public class JwtTokenProvider {
   public boolean validateToken(String token) {
     try {
       Jwts.parserBuilder()
-          .setSigningKey(propertiesConfiguration.getSecret_key())
+          .setSigningKey(propertiesConfiguration.getSecretKey())
           .build()
           .parseClaimsJwt(token);
 

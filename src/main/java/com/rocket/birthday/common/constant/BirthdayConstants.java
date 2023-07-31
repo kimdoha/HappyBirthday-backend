@@ -3,8 +3,9 @@ package com.rocket.birthday.common.constant;
 import org.springframework.http.HttpStatus;
 
 public class BirthdayConstants {
-  public static final String AUTH_HEADER = "Authorization";
-  public static final String BEARER = "BEARER ";
+  public static final String AUTHORIZATION_HEADER = "Authorization";
+  public static final String BEARER = "Bearer ";
+  public static final String PROPERTY_KEYS = "[\"kakao_account.profile\", \"kakao_account.name\", \"kakao_account.email\"]";
 
   public static final int BAD_REQUEST = HttpStatus.BAD_REQUEST.value();
   public static final int UNAUTHORIZED = HttpStatus.UNAUTHORIZED.value();

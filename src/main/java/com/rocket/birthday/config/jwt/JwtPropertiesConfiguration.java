@@ -1,14 +1,16 @@
 package com.rocket.birthday.config.jwt;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "jwt.token")
+@ConfigurationProperties(prefix = "jwt")
+@JsonNaming(SnakeCaseStrategy.class)
 public class JwtPropertiesConfiguration {
-  private String secret_key;
-  private Long expire_time;
+  private String secretKey;
+  private Long expireTime;
 }

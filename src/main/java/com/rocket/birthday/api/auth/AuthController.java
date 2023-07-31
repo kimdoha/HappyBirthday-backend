@@ -5,7 +5,7 @@ import com.rocket.birthday.api.auth.request.KakaoUserInfoRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.auth.response.MemberTokenView;
-import com.rocket.birthday.service.oauth.AuthService;
+import com.rocket.birthday.service.auth.AuthService;
 import com.rocket.birthday.service.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +38,6 @@ public class AuthController {
   // TODO JwtAuthenticationEntryPoint  : 인증되지 않은 요청입니다.
   @PostMapping("/sign-in")
   public MemberTokenView signIn(@Valid @RequestBody KakaoAuthorizationCodeRequest request) {
-    return authService.signInMember(request.getCode());
+    return authService.signUpOrSignInMemberByAuthInfo(request.getCode());
   }
 }

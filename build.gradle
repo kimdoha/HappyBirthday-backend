@@ -3,7 +3,7 @@ buildscript {
 	ext {
 		restdocsApiSpecVersion = '0.17.1'
 		springCloudVersion = '2022.0.0'
-		jwtVersion = '0.11.5'
+		JJWT_RELEASE_VERSION = '0.11.5'
 	}
 }
 plugins {
@@ -60,9 +60,9 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	// JWT
-	implementation "io.jsonwebtoken:jjwt-api:${jwtVersion}"
-	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
-	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
+	implementation "io.jsonwebtoken:jjwt-api:${JJWT_RELEASE_VERSION}"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${JJWT_RELEASE_VERSION}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${JJWT_RELEASE_VERSION}"
 
 	// Open Feign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'

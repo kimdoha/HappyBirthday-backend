@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorResponse {
-  private final boolean success = false;
-  private int code;
+  private Integer code;
   private String reason;
 }

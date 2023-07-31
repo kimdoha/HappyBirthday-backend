@@ -1,9 +1,10 @@
-package com.rocket.birthday.model.oauth;
+package com.rocket.birthday.model.auth;
 
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.vo.ProviderType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -17,14 +18,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "oauth_providers")
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "member_providers")
 @Entity
-public class OAuthProvider {
+public class MemberProvider {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

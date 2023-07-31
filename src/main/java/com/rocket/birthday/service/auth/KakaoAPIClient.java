@@ -1,4 +1,4 @@
-package com.rocket.birthday.service.oauth;
+package com.rocket.birthday.service.auth;
 
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.config.auth.KakaoAPIConfiguration;

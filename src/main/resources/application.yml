@@ -12,6 +12,5 @@ kakao:
   grant-type: ${KAKAO_GRANT_TYPE}
 
 jwt:
-  token:
-    secret_key: ${JWT_SECRET_KEY}
-    expire_time: 1800000
+  secret_key: ${JWT_SECRET_KEY}
+  expire_time: 3600000000
