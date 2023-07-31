@@ -49,19 +49,7 @@ class SampleControllerTest {
                         fieldWithPath("name").description("The name of sample.")
                     )
                     .build()
-
-
          ))
      );
-
-//          document("sample",
-//              resourceDetails()
-//                  .tag("Sample")
-//                  .description("Get a sample by id"),
-//              responseFields(
-//                  fieldWithPath("sampleId").description("The sample identifier."),
-//                  fieldWithPath("name").description("The name of sample.")
-//              )
-//          )
   }
 }

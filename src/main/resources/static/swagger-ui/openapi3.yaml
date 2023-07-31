@@ -6,39 +6,6 @@ info:
 servers:
 - url: https://localhost:8080
 tags: []
-paths:
-  /api/v1/samples/{sampleId}:
-    get:
-      tags:
-      - api
-      summary: Get a sample by id
-      description: Get a sample by id
-      operationId: sample
-      parameters:
-      - name: sampleId
-        in: path
-        description: the sample id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: "200"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/api-v1-samples-sampleId1397588718'
-              examples:
-                sample:
-                  value: "{\"sampleId\":\"aaa\",\"name\":\"sample\"}"
+paths: {}
 components:
-  schemas:
-    api-v1-samples-sampleId1397588718:
-      type: object
-      properties:
-        sampleId:
-          type: string
-          description: The sample identifier.
-        name:
-          type: string
-          description: The name of sample.
+  schemas: {}

@@ -3,6 +3,7 @@ server:
     8080
 
 spring:
+  # MySQL 접속 정보 설정
   datasource:
     url: ${LOCAL_DB_URL}
     username: ${LOCAL_DB_USERNAME}
@@ -18,3 +19,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  # OpenFeign Content Type 설정
+  cloud:
+    openfeign:
+      client:
+        DEBUG
+      oauth2:
+        enabled: true
+      encoder:
+        charset-from-content-type: true
