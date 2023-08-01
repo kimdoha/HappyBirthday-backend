@@ -1,7 +1,8 @@
 package com.rocket.birthday.common.exception;
 
+import com.rocket.birthday.common.exception.custom.BusinessException;
 import com.rocket.birthday.common.exception.custom.auth.KAuthException;
-import com.rocket.birthday.common.exception.dto.ErrorResponse;
+import com.rocket.birthday.common.exception.dto.BaseErrorResponse;
 import com.rocket.birthday.common.exception.dto.KAuthErrorResponse;
 import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,16 +14,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
   @ExceptionHandler(BusinessException.class)
-  public ResponseEntity<ErrorResponse> businessExceptionHandler(
+  public ResponseEntity<BaseErrorResponse> businessExceptionHandler(
       BusinessException e,
       HttpServletRequest request
   ) {
-    ErrorResponse errorResponse = ErrorResponse.builder()
+    BaseErrorResponse baseErrorResponse = BaseErrorResponse.builder()
         .code(e.getErrorCode().getCode())
         .reason(e.getErrorCode().getReason())
         .build();
     return ResponseEntity.status(HttpStatus.valueOf(e.getErrorCode().getCode()))
-        .body(errorResponse);
+        .body( baseErrorResponse );
   }
 
   @ExceptionHandler(KAuthException.class)
@@ -42,18 +43,18 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponse> exceptionHandler(
+  public ResponseEntity<BaseErrorResponse> exceptionHandler(
       Exception e,
       HttpServletRequest request
   ) {
     BaseErrorCode errorCode = BaseErrorCode.INNER_SERVER_ERROR;
-    ErrorResponse errorResponse =
-        ErrorResponse.builder()
+    BaseErrorResponse baseErrorResponse =
+        BaseErrorResponse.builder()
             .code(errorCode.getCode())
             .reason(errorCode.getReason())
             .build();
 
     return ResponseEntity.internalServerError()
-        .body(errorResponse);
+        .body( baseErrorResponse );
   }
 }

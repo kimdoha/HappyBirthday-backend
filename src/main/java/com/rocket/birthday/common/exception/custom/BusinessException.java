@@ -1,4 +1,4 @@
-package com.rocket.birthday.common.exception;
+package com.rocket.birthday.common.exception.custom;
 
 import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import lombok.AllArgsConstructor;

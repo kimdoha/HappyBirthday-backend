@@ -9,7 +9,7 @@ logging:
 kakao:
   client_id: ${KAKAO_CLIENT_ID}
   redirect_uri: ${KAKAO_REDIRECT_URI}
-  grant-type: ${KAKAO_GRANT_TYPE}
+  grant_type: ${KAKAO_GRANT_TYPE}
 
 jwt:
   secret_key: ${JWT_SECRET_KEY}

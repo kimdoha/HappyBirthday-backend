@@ -1,10 +1,10 @@
-package com.rocket.birthday.api.jwt;
+package com.rocket.birthday.service.jwt;
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.AUTHORIZATION_HEADER;
 import static com.rocket.birthday.common.constant.BirthdayConstants.BEARER;
 
 import com.rocket.birthday.config.jwt.JwtPropertiesConfiguration;
-import com.rocket.birthday.service.member.dtos.MemberDetails;
+import com.rocket.birthday.service.member.dto.MemberDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

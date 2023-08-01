@@ -7,7 +7,7 @@ import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.auth.response.MemberTokenView;
-import com.rocket.birthday.api.jwt.JwtTokenProvider;
+import com.rocket.birthday.service.jwt.JwtTokenProvider;
 import com.rocket.birthday.config.auth.KakaoPropertiesConfiguration;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.vo.ProviderType;
@@ -31,9 +31,9 @@ public class AuthService {
   public KakaoOAuthTokenView getKakaoOAuthToken(String code) {
 
     KakaoOAuthTokenRequest body = KakaoOAuthTokenRequest.builder()
-        .grant_type(kakaoPropertiesConfiguration.getGrant_type())
-        .client_id(kakaoPropertiesConfiguration.getClient_id())
-        .redirect_uri(kakaoPropertiesConfiguration.getRedirect_uri())
+        .grant_type(kakaoPropertiesConfiguration.getGrantType())
+        .client_id(kakaoPropertiesConfiguration.getClientId())
+        .redirect_uri(kakaoPropertiesConfiguration.getRedirectUri())
         .code(code)
         .build();
 

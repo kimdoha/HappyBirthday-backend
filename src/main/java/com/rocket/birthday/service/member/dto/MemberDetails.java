@@ -1,4 +1,4 @@
-package com.rocket.birthday.service.member.dtos;
+package com.rocket.birthday.service.member.dto;
 
 import java.util.Collection;
 import lombok.Getter;

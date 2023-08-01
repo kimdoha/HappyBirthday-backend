@@ -3,7 +3,6 @@ package com.rocket.birthday.service.member;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.repository.member.MemberRepository;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
