@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.jwt;
+package com.rocket.birthday.service.jwt;
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.AUTHORIZATION_HEADER;
 import static com.rocket.birthday.common.constant.BirthdayConstants.BEARER;
@@ -32,7 +32,7 @@ public class JwtTokenProvider {
         .setSubject(memberName)
         .claim("memberId", memberId)
         .setIssuedAt(now)
-        .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecretKey())
+        .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecretKey().getBytes())
         .setExpiration(expireDate)
         .compact();
   }
@@ -40,6 +40,7 @@ public class JwtTokenProvider {
   public Authentication getAuthentication(String token) {
     Claims claims = getClaims(token);
     Long memberId = (Long) claims.get("memberId");
+    log.info("memberId : " + memberId);
     MemberDetails principal = new MemberDetails(memberId);
 
     return new UsernamePasswordAuthenticationToken(principal, token);
@@ -47,9 +48,9 @@ public class JwtTokenProvider {
 
   public Claims getClaims(String token) {
     return Jwts.parserBuilder()
-        .setSigningKey(propertiesConfiguration.getSecretKey())
+        .setSigningKey(propertiesConfiguration.getSecretKey().getBytes())
         .build()
-        .parseClaimsJwt(token)
+        .parseClaimsJws(token)
         .getBody();
   }
 
@@ -66,9 +67,9 @@ public class JwtTokenProvider {
   public boolean validateToken(String token) {
     try {
       Jwts.parserBuilder()
-          .setSigningKey(propertiesConfiguration.getSecretKey())
+          .setSigningKey(propertiesConfiguration.getSecretKey().getBytes())
           .build()
-          .parseClaimsJwt(token);
+          .parseClaimsJws(token);
 
       return true;
     } catch (JwtException exception) {

@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.jwt;
+package com.rocket.birthday.service.jwt;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -13,10 +13,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "messages")
 @Entity
@@ -39,6 +45,9 @@ public class Message {
 
   @Column(nullable = false, unique = true)
   private String link;
+
+  @Column(name = "color_code")
+  private String colorCode;
 
   @CreatedDate
   @Column(name = "created_at", updatable = false)

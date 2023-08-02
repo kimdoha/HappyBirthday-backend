@@ -24,12 +24,20 @@ public class MessageDeleted {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String content;
+
   @Column(name = "from_member_id")
   private Long from;
+
   @Column(name = "to_member_id")
   private Long to;
+
   private String link;
+
+  @Column(name = "color_code")
+  private String colorCode;
+
   @CreatedDate
   @Column(name = "deleted_at", updatable = false)
   private LocalDateTime deletedAt;

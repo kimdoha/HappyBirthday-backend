@@ -7,7 +7,7 @@ import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.auth.response.MemberTokenView;
-import com.rocket.birthday.api.jwt.JwtTokenProvider;
+import com.rocket.birthday.service.jwt.JwtTokenProvider;
 import com.rocket.birthday.config.auth.KakaoPropertiesConfiguration;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.vo.ProviderType;
