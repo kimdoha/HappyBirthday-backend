@@ -29,8 +29,6 @@ public class AuthController {
     return authService.getKakaoOAuthToken(request.getCode());
   }
 
-  // TODO Example
-  // ERROR [{"msg":"this access token is already expired","code":-401}]
   @PostMapping("/kakao/info")
   public KakaoUserInfoView getKakaoUserInfo(@RequestBody KakaoUserInfoRequest request) {
     return authService.getKakaoUserInfo(request.getAccessToken());

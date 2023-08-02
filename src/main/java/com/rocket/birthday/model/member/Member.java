@@ -1,15 +1,19 @@
 package com.rocket.birthday.model.member;
 
+import com.rocket.birthday.model.message.Message;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +45,12 @@ public class Member {
   private String profileImageUrl;
 
   private LocalDate birthday;
+
+  @OneToMany(mappedBy = "from")
+  private List<Message> sentBox;
+
+  @OneToMany(mappedBy = "to")
+  private List<Message> inBox;
 
   @CreatedDate
   @Column(name = "created_at", updatable = false)
