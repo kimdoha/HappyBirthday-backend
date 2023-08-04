@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,21 +30,20 @@ public class JwtTokenProvider {
     Date expireDate = new Date( now.getTime() + propertiesConfiguration.getExpireTime() );
 
     return Jwts.builder()
-        .setSubject(memberName)
-        .claim("memberId", memberId)
+        .setSubject(String.valueOf(memberId))
+        .claim("memberName", memberName)
         .setIssuedAt(now)
         .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecretKey().getBytes())
         .setExpiration(expireDate)
         .compact();
   }
 
-  public Authentication getAuthentication(String token) {
-    Claims claims = getClaims(token);
-    Long memberId = (Long) claims.get("memberId");
-    log.info("memberId : " + memberId);
-    MemberDetails principal = new MemberDetails(memberId);
+  public UsernamePasswordAuthenticationToken getAuthentication(String token) {
+    Claims claims = getClaims( token );
+    Long memberId = Long.valueOf(claims.getSubject());
 
-    return new UsernamePasswordAuthenticationToken(principal, token);
+    MemberDetails principal = new MemberDetails( memberId );
+    return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
   }
 
   public Claims getClaims(String token) {

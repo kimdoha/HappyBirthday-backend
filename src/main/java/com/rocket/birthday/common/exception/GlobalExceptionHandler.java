@@ -5,11 +5,13 @@ import com.rocket.birthday.common.exception.dto.ErrorResponse;
 import com.rocket.birthday.common.exception.dto.KAuthErrorResponse;
 import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
   @ExceptionHandler(BusinessException.class)
@@ -46,6 +48,7 @@ public class GlobalExceptionHandler {
       Exception e,
       HttpServletRequest request
   ) {
+    log.info("exception : " + e.getMessage());
     BaseErrorCode errorCode = BaseErrorCode.INNER_SERVER_ERROR;
     ErrorResponse errorResponse =
         ErrorResponse.builder()
