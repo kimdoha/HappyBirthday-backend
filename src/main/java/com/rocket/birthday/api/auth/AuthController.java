@@ -1,10 +1,10 @@
 package com.rocket.birthday.api.auth;
 
-import com.rocket.birthday.api.auth.request.KakaoAuthorizationCodeRequest;
-import com.rocket.birthday.api.auth.request.KakaoUserInfoRequest;
-import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
-import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
-import com.rocket.birthday.api.auth.response.MemberTokenView;
+import com.rocket.birthday.api.auth.dto.request.KakaoAuthorizationCodeRequest;
+import com.rocket.birthday.api.auth.dto.request.KakaoUserInfoRequest;
+import com.rocket.birthday.api.auth.dto.response.KakaoOAuthTokenView;
+import com.rocket.birthday.api.auth.dto.response.KakaoUserInfoView;
+import com.rocket.birthday.api.auth.dto.response.MemberTokenView;
 import com.rocket.birthday.service.auth.AuthService;
 import com.rocket.birthday.service.member.MemberService;
 import jakarta.validation.Valid;

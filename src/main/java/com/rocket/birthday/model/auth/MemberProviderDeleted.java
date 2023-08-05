@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,5 @@ public class MemberProviderDeleted {
   private Long memberId;
   @CreatedDate
   @Column(name = "deleted_at", updatable = false)
-  private LocalDateTime deletedAt;
+  private ZonedDateTime deletedAt;
 }

@@ -33,10 +33,11 @@ public class MessageDeleted {
   @Column(name = "to_member_id")
   private Long to;
 
-  private String link;
-
   @Column(name = "color_code")
   private String colorCode;
+
+  @Column(name = "open_date")
+  private LocalDateTime openDate;
 
   @CreatedDate
   @Column(name = "deleted_at", updatable = false)

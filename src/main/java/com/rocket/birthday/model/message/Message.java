@@ -12,14 +12,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,17 +45,25 @@ public class Message {
   @JoinColumn(name = "to_member_id", referencedColumnName = "id")
   private Member to;
 
-  @Column(nullable = false, unique = true)
-  private String link;
-
   @Column(name = "color_code")
   private String colorCode;
 
+  @Column(name = "open_date")
+  private ZonedDateTime openDate;
+
   @CreatedDate
   @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt;
+  private ZonedDateTime createdAt;
 
   @LastModifiedDate
   @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
+  private ZonedDateTime updatedAt;
+
+  public Message update(String _content, String _colorCode, ZonedDateTime _openDate) {
+    this.content = _content;
+    this.colorCode = _colorCode;
+    this.openDate = _openDate;
+    this.updatedAt = ZonedDateTime.now();
+    return this;
+  }
 }

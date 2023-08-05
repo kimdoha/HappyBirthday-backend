@@ -3,10 +3,10 @@ package com.rocket.birthday.service.auth;
 import static com.rocket.birthday.common.constant.BirthdayConstants.BEARER;
 import static com.rocket.birthday.common.constant.BirthdayConstants.PROPERTY_KEYS;
 
-import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
-import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
-import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
-import com.rocket.birthday.api.auth.response.MemberTokenView;
+import com.rocket.birthday.api.auth.dto.request.KakaoOAuthTokenRequest;
+import com.rocket.birthday.api.auth.dto.response.KakaoOAuthTokenView;
+import com.rocket.birthday.api.auth.dto.response.KakaoUserInfoView;
+import com.rocket.birthday.api.auth.dto.response.MemberTokenView;
 import com.rocket.birthday.service.jwt.JwtTokenProvider;
 import com.rocket.birthday.config.auth.KakaoPropertiesConfiguration;
 import com.rocket.birthday.model.member.Member;

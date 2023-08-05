@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,17 +56,17 @@ public class Member {
 
   @CreatedDate
   @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt;
+  private ZonedDateTime createdAt;
 
   @LastModifiedDate
   @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
+  private ZonedDateTime updatedAt;
 
   public Member update(String nickname, String profileImageUrl, LocalDate birthday) {
     this.nickname = nickname;
     this.profileImageUrl = profileImageUrl;
     this.birthday = birthday;
-    this.updatedAt = LocalDateTime.now();
+    this.updatedAt = ZonedDateTime.now();
     return this;
   }
 }

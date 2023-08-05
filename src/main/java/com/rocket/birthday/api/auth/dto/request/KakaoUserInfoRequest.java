@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.auth.request;
+package com.rocket.birthday.api.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
