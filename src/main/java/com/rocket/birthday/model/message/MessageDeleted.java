@@ -1,5 +1,6 @@
 package com.rocket.birthday.model.message;
 
+import com.rocket.birthday.model.member.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

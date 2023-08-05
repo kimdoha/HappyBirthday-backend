@@ -1,7 +1,5 @@
 package com.rocket.birthday.api.message.mapper;
 
-import static com.rocket.birthday.common.constant.BirthdayConstants.formatter;
-
 import com.rocket.birthday.api.message.dto.request.PostMessageRequest;
 import com.rocket.birthday.api.message.dto.response.MessageInfoView;
 import com.rocket.birthday.model.member.Member;
@@ -20,12 +18,13 @@ public class MessageMapper {
         .colorCode( postMessageRequest.getColorCode())
         .to(toMember)
         .from(fromMember)
-        .openDate(ZonedDateTime.parse(postMessageRequest.getOpenDate(), formatter))
+        .openDate(ZonedDateTime.parse(postMessageRequest.getOpenDate()))
         .build();
   }
 
   public MessageInfoView toMessageInfoView(Message message) {
     return MessageInfoView.builder()
+        .id(message.getId())
         .content(message.getContent())
         .colorCode(message.getColorCode())
         .to(message.getTo().getNickname())

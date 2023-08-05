@@ -17,14 +17,20 @@ public class MessageService {
   private final MessageRepository messageRepository;
   private final MessageMapper messageMapper;
 
-  public MessageInfoView createMessage(Long memberId, PostMessageRequest postMessageRequest) {
 
-    Member toMember = memberService.findOneByNickname(postMessageRequest.getNickname());
-    Member fromMember = memberService.findOne(memberId);
+  public MessageInfoView createMessage(Long fromMemberId, Long toMemberId, PostMessageRequest postMessageRequest) {
+
+    Member toMember = memberService.findOne(toMemberId);
+    Member fromMember = memberService.findOne(fromMemberId);
+
+//    if(toMember.getId().equals(fromMember.getId())) {
+//      throw new
+//    }
 
     Message message = messageMapper.toEntity( postMessageRequest, toMember, fromMember);
+    System.out.println(message);
     Message result = messageRepository.save(message);
-
+    System.out.println(result);
     return messageMapper.toMessageInfoView(result);
   }
 }

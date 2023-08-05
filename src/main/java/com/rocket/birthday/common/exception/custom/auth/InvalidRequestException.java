@@ -4,7 +4,7 @@ import com.rocket.birthday.common.exception.BusinessException;
 import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 
 public class InvalidRequestException extends BusinessException {
-  public static InvalidRequestException EXCEPTION = new InvalidRequestException(BaseErrorCode.INVALID_REQUEST);
+  public static final InvalidRequestException EXCEPTION = new InvalidRequestException(BaseErrorCode.INVALID_REQUEST);
   public InvalidRequestException(BaseErrorCode errorCode) {
     super(errorCode);
   }

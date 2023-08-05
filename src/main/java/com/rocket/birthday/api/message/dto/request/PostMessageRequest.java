@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostMessageRequest {
   private String content;
-  private String nickname;
   private String colorCode;
   private String openDate;
 }

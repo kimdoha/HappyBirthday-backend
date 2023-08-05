@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import java.time.ZonedDateTime;
@@ -17,15 +19,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "messages")
 @Entity
 public class Message {
@@ -51,13 +50,22 @@ public class Message {
   @Column(name = "open_date")
   private ZonedDateTime openDate;
 
-  @CreatedDate
-  @Column(name = "created_at", updatable = false)
+  @Column(name = "created_at")
   private ZonedDateTime createdAt;
 
-  @LastModifiedDate
   @Column(name = "updated_at")
   private ZonedDateTime updatedAt;
+
+  @PrePersist
+  public void onPrePersist() {
+    this.createdAt = ZonedDateTime.now();
+    this.updatedAt = ZonedDateTime.now();
+  }
+
+  @PreUpdate
+  public void onPreUpdate() {
+    this.updatedAt = ZonedDateTime.now();
+  }
 
   public Message update(String _content, String _colorCode, ZonedDateTime _openDate) {
     this.content = _content;

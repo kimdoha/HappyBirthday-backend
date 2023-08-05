@@ -13,9 +13,8 @@ public class BirthdayConstants {
   public static final int UNAUTHORIZED = HttpStatus.UNAUTHORIZED.value();
   public static final int FORBIDDEN = HttpStatus.FORBIDDEN.value();
   public static final int NOT_FOUND = HttpStatus.NOT_FOUND.value();
+  public static final int CONFLICT = HttpStatus.CONFLICT.value();
   public static final int TOO_MANY_REQUEST = HttpStatus.TOO_MANY_REQUESTS.value();
   public static final int INTERNAL_SERVER = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
-  // DATETIME
-  public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss");
 }

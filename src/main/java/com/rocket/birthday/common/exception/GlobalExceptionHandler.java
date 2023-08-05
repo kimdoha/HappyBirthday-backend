@@ -20,7 +20,6 @@ public class GlobalExceptionHandler {
       BusinessException e,
       HttpServletRequest request
   ) {
-    log.info("business exception : " + e.getMessage());
     ErrorResponse errorResponse = ErrorResponse.builder()
         .code(e.getErrorCode().getCode())
         .reason(e.getErrorCode().getReason())
