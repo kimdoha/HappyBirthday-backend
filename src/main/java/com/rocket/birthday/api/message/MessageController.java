@@ -2,6 +2,7 @@ package com.rocket.birthday.api.message;
 
 import com.rocket.birthday.api.message.dto.request.PostMessageRequest;
 import com.rocket.birthday.api.message.dto.request.UpdateMessageRequest;
+import com.rocket.birthday.api.message.dto.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.dto.response.MessageInfoView;
 import com.rocket.birthday.service.member.dtos.MemberDetails;
 import com.rocket.birthday.service.message.MessageService;
@@ -47,7 +48,9 @@ public class MessageController {
   }
 
   @DeleteMapping("/{id}")
-  public String deleteMessage(@PathVariable Long id) {
-    return "delete-message";
+  public MessageExistInfoView deleteMessage(
+      @PathVariable Long id,
+      @AuthenticationPrincipal MemberDetails member) {
+    return messageService.deleteMessage(id, member.getMemberId());
   }
 }

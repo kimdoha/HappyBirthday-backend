@@ -1,9 +1,11 @@
 package com.rocket.birthday.api.message.mapper;
 
 import com.rocket.birthday.api.message.dto.request.PostMessageRequest;
+import com.rocket.birthday.api.message.dto.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.dto.response.MessageInfoView;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.message.Message;
+import com.rocket.birthday.model.message.MessageDeleted;
 import java.time.ZonedDateTime;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,23 @@ public class MessageMapper {
         .from(message.getFrom().getNickname())
         .openDate(message.getOpenDate())
         .createdAt(message.getCreatedAt())
+        .build();
+  }
+
+  public MessageDeleted toMessageDeletedEntity(Message message) {
+    return MessageDeleted.builder()
+        .content(message.getContent())
+        .colorCode(message.getColorCode())
+        .to(message.getTo().getId())
+        .from(message.getFrom().getId())
+        .openDate(message.getOpenDate())
+        .build();
+  }
+
+  public MessageExistInfoView toMessageExistInfoView(Long id) {
+    return MessageExistInfoView.builder()
+        .id(id)
+        .exist(false)
         .build();
   }
 }

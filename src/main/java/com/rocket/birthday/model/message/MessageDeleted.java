@@ -1,24 +1,22 @@
 package com.rocket.birthday.model.message;
 
-import com.rocket.birthday.model.member.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "messages_deleted")
 @Entity
 public class MessageDeleted {
@@ -38,9 +36,13 @@ public class MessageDeleted {
   private String colorCode;
 
   @Column(name = "open_date")
-  private LocalDateTime openDate;
+  private ZonedDateTime openDate;
 
-  @CreatedDate
-  @Column(name = "deleted_at", updatable = false)
-  private LocalDateTime deletedAt;
+  @Column(name = "deleted_at")
+  private ZonedDateTime deletedAt;
+
+  @PrePersist
+  public void onPrePersist() {
+    this.deletedAt = ZonedDateTime.now();
+  }
 }
