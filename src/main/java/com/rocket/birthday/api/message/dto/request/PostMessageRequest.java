@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostMessageRequest {
   private String content;
-  private Long receiver;
   private String colorCode;
   private String openDate;
+  private Boolean receiverExist;
+  private Long receiverId;
 }

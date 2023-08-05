@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageController {
   private final MessageService messageService;
-  @PostMapping("/member")
+  @PostMapping("")
   public MessageInfoView postMessage(
       @RequestBody @Valid PostMessageRequest postMessageRequest,
       @AuthenticationPrincipal MemberDetails member
@@ -32,8 +32,8 @@ public class MessageController {
   }
 
   @GetMapping("/{id}")
-  public String getMessageInfo(@PathVariable Long id) {
-    return "get-message";
+  public MessageInfoView getMessageDetailInfo(@PathVariable Long id) {
+    return messageService.getMessageInfo(id);
   }
 
   @PatchMapping("/{id}")
