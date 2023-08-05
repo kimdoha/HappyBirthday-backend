@@ -23,13 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageController {
   private final MessageService messageService;
-  @PostMapping("/member/{toMemberId}")
+  @PostMapping("/member")
   public MessageInfoView postMessage(
-      @PathVariable Long toMemberId,
       @RequestBody @Valid PostMessageRequest postMessageRequest,
       @AuthenticationPrincipal MemberDetails member
   ) {
-    return messageService.createMessage(member.getMemberId(), toMemberId, postMessageRequest );
+    return messageService.createMessage(member.getMemberId(), postMessageRequest );
   }
 
   @GetMapping("/{id}")

@@ -26,8 +26,8 @@ public enum BaseErrorCode {
 
   // [MEMBER]
   MEMBER_NOT_FOUND(NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
-  MESSAGE_RECEIVER_NOT_FOUND(NOT_FOUND, "메세지 받는 이를 찾을 수 없습니다.");
-  // (BAD_REQUEST, "생일 메세지는 본인에게 작성할 수 없습니다.");
+  MESSAGE_RECEIVER_NOT_FOUND(NOT_FOUND, "메세지 받는 이를 찾을 수 없습니다."),
+  UNABLE_MESSAGE_MYSELF(BAD_REQUEST, "생일 메세지는 본인에게 작성할 수 없습니다.");
 
 
   private Integer code;
