@@ -1,6 +1,6 @@
 package com.rocket.birthday.service.auth;
 
-import com.rocket.birthday.api.auth.dto.response.KakaoUserInfoView;
+import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.config.auth.KakaoAPIConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

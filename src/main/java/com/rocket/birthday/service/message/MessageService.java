@@ -2,11 +2,11 @@ package com.rocket.birthday.service.message;
 
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.*;
 
-import com.rocket.birthday.api.message.dto.request.PostMessageRequest;
-import com.rocket.birthday.api.message.dto.request.UpdateMessageRequest;
-import com.rocket.birthday.api.message.dto.response.MessageExistInfoView;
-import com.rocket.birthday.api.message.dto.response.MessageInfoView;
-import com.rocket.birthday.api.message.mapper.MessageMapper;
+import com.rocket.birthday.api.message.request.PostMessageRequest;
+import com.rocket.birthday.api.message.request.UpdateMessageRequest;
+import com.rocket.birthday.api.message.response.MessageExistInfoView;
+import com.rocket.birthday.api.message.response.MessageInfoView;
+import com.rocket.birthday.service.message.mapper.MessageMapper;
 import com.rocket.birthday.common.exception.custom.message.InvalidMessageRequestException;
 import com.rocket.birthday.common.exception.custom.message.MessageNotFoundException;
 import com.rocket.birthday.model.member.Member;

@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.auth.dto.response;
+package com.rocket.birthday.api.auth.response;
 
 import java.time.ZonedDateTime;
 import lombok.Getter;

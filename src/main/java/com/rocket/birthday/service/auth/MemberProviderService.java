@@ -4,6 +4,7 @@ import com.rocket.birthday.model.auth.MemberProvider;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.vo.ProviderType;
 import com.rocket.birthday.repository.auth.MemberProviderRepository;
+import com.rocket.birthday.service.auth.mapper.AuthMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberProviderService {
   private final MemberProviderRepository memberProviderRepository;
+  private final AuthMapper authMapper;
 
   @Transactional(readOnly = true)
   public MemberProvider findOneBy(String oid, ProviderType provider) {
@@ -20,12 +22,7 @@ public class MemberProviderService {
 
   @Transactional
   public MemberProvider create(String oid, ProviderType provider, Member member) {
-    MemberProvider memberProvider = MemberProvider.builder()
-        .member(member)
-        .oid(oid)
-        .provider(provider)
-        .build();
-
+    MemberProvider memberProvider = authMapper.toMemberProvider(oid, provider, member);
     return memberProviderRepository.save(memberProvider);
   }
 }

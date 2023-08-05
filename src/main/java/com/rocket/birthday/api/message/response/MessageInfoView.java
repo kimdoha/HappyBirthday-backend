@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.message.dto.response;
+package com.rocket.birthday.api.message.response;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;

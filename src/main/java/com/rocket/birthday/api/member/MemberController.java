@@ -1,8 +1,8 @@
 package com.rocket.birthday.api.member;
 
-import com.rocket.birthday.api.member.dto.response.MemberExistInfoView;
+import com.rocket.birthday.api.member.response.MemberExistInfoView;
 import com.rocket.birthday.service.member.MemberService;
-import com.rocket.birthday.service.member.dtos.MemberDetails;
+import com.rocket.birthday.service.member.dto.MemberDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -4,9 +4,9 @@ import static com.rocket.birthday.common.exception.enums.BaseErrorCode.MEMBER_NO
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.MESSAGE_RECEIVER_NOT_FOUND;
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.NOT_AVAILABLE_MESSAGE_CREATE;
 
-import com.rocket.birthday.api.auth.dto.response.KakaoUserInfoView;
-import com.rocket.birthday.api.member.dto.response.MemberExistInfoView;
-import com.rocket.birthday.api.member.mapper.MemberMapper;
+import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
+import com.rocket.birthday.api.member.response.MemberExistInfoView;
+import com.rocket.birthday.service.member.mapper.MemberMapper;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.common.exception.custom.message.InvalidMessageRequestException;
 import com.rocket.birthday.model.member.Member;
@@ -46,12 +46,7 @@ public class MemberService {
   @Transactional
   public Member create(KakaoUserInfoView kakaoUserInfo) {
 
-    Member member = Member.builder()
-        .email(kakaoUserInfo.getKakao_account().getEmail())
-        .nickname(kakaoUserInfo.getKakao_account().getProfile().getNickname())
-        .profileImageUrl(kakaoUserInfo.getKakao_account().getProfile().getProfile_image_url())
-        .build();
-
+    Member member = memberMapper.toEntity(kakaoUserInfo);
     return memberRepository.save(member);
   }
 }

@@ -1,8 +1,8 @@
-package com.rocket.birthday.api.message.mapper;
+package com.rocket.birthday.service.message.mapper;
 
-import com.rocket.birthday.api.message.dto.request.PostMessageRequest;
-import com.rocket.birthday.api.message.dto.response.MessageExistInfoView;
-import com.rocket.birthday.api.message.dto.response.MessageInfoView;
+import com.rocket.birthday.api.message.request.PostMessageRequest;
+import com.rocket.birthday.api.message.response.MessageExistInfoView;
+import com.rocket.birthday.api.message.response.MessageInfoView;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.message.Message;
 import com.rocket.birthday.model.message.MessageDeleted;

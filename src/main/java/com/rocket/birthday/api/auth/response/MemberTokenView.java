@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.message.dto.response;
+package com.rocket.birthday.api.auth.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageExistInfoView {
+public class MemberTokenView {
   private Long id;
-  private Boolean exist;
+  private String token;
 }

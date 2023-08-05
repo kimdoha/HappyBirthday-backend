@@ -4,18 +4,16 @@ import static com.rocket.birthday.common.constant.BirthdayConstants.AUTHORIZATIO
 import static com.rocket.birthday.common.constant.BirthdayConstants.BEARER;
 
 import com.rocket.birthday.config.jwt.JwtPropertiesConfiguration;
-import com.rocket.birthday.service.member.dtos.MemberDetails;
+import com.rocket.birthday.service.member.dto.MemberDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 @Slf4j
