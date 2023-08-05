@@ -27,8 +27,12 @@ public enum BaseErrorCode {
   // [MEMBER]
   MEMBER_NOT_FOUND(NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
   MESSAGE_RECEIVER_NOT_FOUND(NOT_FOUND, "메세지 받는 이를 찾을 수 없습니다."),
-  UNABLE_MESSAGE_MYSELF(BAD_REQUEST, "생일 메세지는 본인에게 작성할 수 없습니다."),
-  MESSAGE_NOT_FOUND(NOT_FOUND, "해당 메세지를 찾을 수 없습니다.");
+
+  // [MESSAGE]
+  NOT_AVAILABLE_MESSAGE_CREATE(CONFLICT, "생일 메세지는 본인에게 작성할 수 없습니다."),
+  MESSAGE_NOT_FOUND(NOT_FOUND, "해당 메세지를 찾을 수 없습니다."),
+  NOT_AVAILABLE_MESSAGE_UPDATE(CONFLICT, "생일 메세지는 본인만 수정할 수 있습니다."),
+  NOT_AVAILABLE_MESSAGE_UPDATE_AFTER_DATE(CONFLICT, "메세지 오픈 날짜 이전에만 수정이 가능합니다.");
 
 
   private Integer code;

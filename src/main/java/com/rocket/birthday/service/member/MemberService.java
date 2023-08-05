@@ -2,7 +2,7 @@ package com.rocket.birthday.service.member;
 
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.MEMBER_NOT_FOUND;
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.MESSAGE_RECEIVER_NOT_FOUND;
-import static com.rocket.birthday.common.exception.enums.BaseErrorCode.UNABLE_MESSAGE_MYSELF;
+import static com.rocket.birthday.common.exception.enums.BaseErrorCode.NOT_AVAILABLE_MESSAGE_CREATE;
 
 import com.rocket.birthday.api.auth.dto.response.KakaoUserInfoView;
 import com.rocket.birthday.api.member.dto.response.MemberExistInfoView;
@@ -37,7 +37,7 @@ public class MemberService {
         .orElseThrow(() -> new MemberNotFoundException(MESSAGE_RECEIVER_NOT_FOUND) );
 
     if(member.getId().equals(memberId)){
-      throw new InvalidMessageRequestException(UNABLE_MESSAGE_MYSELF);
+      throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
     }
 
     return memberMapper.toMemberExistInfoView(member.getId());

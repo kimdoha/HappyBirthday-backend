@@ -17,8 +17,8 @@ public class MessageMapper {
       Boolean receiverExist) {
 
     return Message.builder()
-        .content( postMessageRequest.getContent())
-        .colorCode( postMessageRequest.getColorCode())
+        .content(postMessageRequest.getContent())
+        .colorCode(postMessageRequest.getColorCode())
         .to(receiverExist ? toMember : null)
         .from(fromMember)
         .openDate(ZonedDateTime.parse(postMessageRequest.getOpenDate()))

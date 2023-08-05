@@ -1,6 +1,7 @@
 package com.rocket.birthday.api.message;
 
 import com.rocket.birthday.api.message.dto.request.PostMessageRequest;
+import com.rocket.birthday.api.message.dto.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.dto.response.MessageInfoView;
 import com.rocket.birthday.service.member.dtos.MemberDetails;
 import com.rocket.birthday.service.message.MessageService;
@@ -37,8 +38,12 @@ public class MessageController {
   }
 
   @PatchMapping("/{id}")
-  public String updateMessage(@PathVariable Long id) {
-    return "update-message";
+  public MessageInfoView updateMessage(
+      @PathVariable Long id,
+      @RequestBody UpdateMessageRequest updateMessageRequest,
+      @AuthenticationPrincipal MemberDetails member
+  ) {
+    return messageService.updateMessage(id, member.getMemberId(), updateMessageRequest);
   }
 
   @DeleteMapping("/{id}")
