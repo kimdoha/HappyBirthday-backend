@@ -12,10 +12,9 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(SnakeCaseStrategy.class)
 public class KakaoOAuthTokenRequest {
-  private String grantType;
-  private String clientId;
-  private String redirectUri;
+  private String grant_type;
+  private String client_id;
+  private String redirect_uri;
   private String code;
 }

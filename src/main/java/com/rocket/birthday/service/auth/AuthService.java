@@ -38,7 +38,7 @@ public class AuthService {
         kakaoPropertiesConfiguration.getRedirectUri(),
         code
     );
-
+    log.info("kakao oauth body : " + body);
     return kakaoAuthClient.getKakaoOAuthToken(body);
   }
 

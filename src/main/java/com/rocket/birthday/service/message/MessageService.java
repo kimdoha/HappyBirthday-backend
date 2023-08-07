@@ -6,6 +6,9 @@ import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageInfoView;
+import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
+import com.rocket.birthday.repository.member.MemberRepository;
+import com.rocket.birthday.service.message.factory.MessageFactory;
 import com.rocket.birthday.service.message.mapper.MessageMapper;
 import com.rocket.birthday.common.exception.custom.message.InvalidMessageRequestException;
 import com.rocket.birthday.common.exception.custom.message.MessageNotFoundException;
@@ -14,7 +17,7 @@ import com.rocket.birthday.model.message.Message;
 import com.rocket.birthday.model.message.MessageDeleted;
 import com.rocket.birthday.repository.message.MessageDeletedRepository;
 import com.rocket.birthday.repository.message.MessageRepository;
-import com.rocket.birthday.service.member.MemberService;
+import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,18 +26,32 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class MessageService {
-  private final MemberService memberService;
+  private final MemberRepository memberRepository;
   private final MessageRepository messageRepository;
   private final MessageDeletedRepository messageDeletedRepository;
   private final MessageMapper messageMapper;
+  private final MessageFactory messageFactory;
 
   @Transactional
-  public MessageInfoView createMessage(Long fromMemberId, PostMessageRequest postMessageRequest) {
-    Member fromMember = memberService.findOne(fromMemberId);
-    Boolean receiverExist =  postMessageRequest.getReceiverExist();
-    Member toMember = receiverExist ? memberService.findOne(postMessageRequest.getReceiverId()) : new Member();
-    Message message = messageMapper.toEntity(postMessageRequest, toMember, fromMember, receiverExist);
+  public MessageInfoView createMessage(
+      Long senderId,
+      PostMessageRequest postMessageRequest
+  ) {
+    Member sender = memberRepository.findById(senderId)
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
+    Member receiver = null;
+    if(postMessageRequest.getMessageType().equals(MessageType.DIRECT)){
+      receiver = memberRepository.findById(postMessageRequest.getReceiverId())
+          .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+    }
+
+    Message message = messageFactory.create(
+        postMessageRequest.getMessageType(),
+        postMessageRequest.toCommand(sender, receiver));
+
+    //TODO 1. message == null -> MessageType ERROR
+    //TODO 2. 본인에게 작성 시 -> Business ERROR
     Message result = messageRepository.save(message);
     return messageMapper.toMessageInfoView(result);
   }
@@ -84,7 +101,7 @@ public class MessageService {
   }
 
   private Message findMessageById(Long messageId) {
-    return messageRepository.findById( messageId )
+    return messageRepository.findById(messageId)
         .orElseThrow(() -> MessageNotFoundException.EXCEPTION);
   }
 }

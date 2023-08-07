@@ -27,14 +27,16 @@ public class MessageController {
   private final MessageService messageService;
   @PostMapping("")
   public MessageInfoView postMessage(
-      @RequestBody @Valid PostMessageRequest postMessageRequest,
+      @RequestBody PostMessageRequest postMessageRequest,
       @AuthenticationPrincipal MemberDetails member
   ) {
     return messageService.createMessage(member.getMemberId(), postMessageRequest );
   }
 
   @GetMapping("/{id}")
-  public MessageInfoView getMessageDetailInfo(@PathVariable Long id) {
+  public MessageInfoView getMessageDetailInfo(
+      @PathVariable Long id
+  ) {
     return messageService.getMessageInfo(id);
   }
 

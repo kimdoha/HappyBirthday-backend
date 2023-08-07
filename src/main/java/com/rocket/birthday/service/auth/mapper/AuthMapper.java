@@ -16,9 +16,9 @@ public class AuthMapper {
       String code
   ) {
     return KakaoOAuthTokenRequest.builder()
-        .grantType(grantType)
-        .clientId(clientId)
-        .redirectUri(redirectUri)
+        .grant_type(grantType)
+        .client_id(clientId)
+        .redirect_uri(redirectUri)
         .code(code)
         .build();
   }
