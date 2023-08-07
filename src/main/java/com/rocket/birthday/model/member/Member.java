@@ -48,12 +48,6 @@ public class Member {
 
   private LocalDate birthday;
 
-  @OneToMany(mappedBy = "from")
-  private List<Message> sentBox;
-
-  @OneToMany(mappedBy = "to")
-  private List<Message> inBox;
-
   @CreatedDate
   @Column(name = "created_at", updatable = false)
   private ZonedDateTime createdAt;

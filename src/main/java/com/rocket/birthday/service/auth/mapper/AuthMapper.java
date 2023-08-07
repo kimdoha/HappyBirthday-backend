@@ -9,11 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthMapper {
-  public KakaoOAuthTokenRequest toKakaoOAuthTokenRequest(String grantType, String clientId, String redirectUri, String code) {
+  public KakaoOAuthTokenRequest toKakaoOAuthTokenRequest(
+      String grantType,
+      String clientId,
+      String redirectUri,
+      String code
+  ) {
     return KakaoOAuthTokenRequest.builder()
-        .grant_type(grantType)
-        .client_id(clientId)
-        .redirect_uri(redirectUri)
+        .grantType(grantType)
+        .clientId(clientId)
+        .redirectUri(redirectUri)
         .code(code)
         .build();
   }
