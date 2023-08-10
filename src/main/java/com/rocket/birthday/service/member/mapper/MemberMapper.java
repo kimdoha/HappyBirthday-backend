@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberMapper {
-  public MemberExistInfoView toMemberExistInfoView(Long id) {
+  public static MemberExistInfoView toMemberExistInfoView(Long id) {
     return MemberExistInfoView.builder()
         .id(id)
         .exist(true)

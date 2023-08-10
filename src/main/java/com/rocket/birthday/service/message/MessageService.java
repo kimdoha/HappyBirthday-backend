@@ -46,12 +46,19 @@ public class MessageService {
           .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
     }
 
+
     Message message = messageFactory.create(
         postMessageRequest.getMessageType(),
         postMessageRequest.toCommand(sender, receiver));
 
-    //TODO 1. message == null -> MessageType ERROR
-    //TODO 2. 본인에게 작성 시 -> Business ERROR
+    if(message.equals(null)) {
+      throw new InvalidMessageRequestException(INVALID_MESSAGE_CREATE_TYPE);
+    }
+
+    if(sender.getId().equals(receiver.getId())){
+      throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
+    }
+
     Message result = messageRepository.save(message);
     return messageMapper.toMessageInfoView(result);
   }

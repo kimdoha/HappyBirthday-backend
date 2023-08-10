@@ -23,7 +23,7 @@ public class AuthMapper {
         .build();
   }
 
-  public MemberTokenView toMemberTokenView(Long memberId, String token) {
+  public static MemberTokenView toMemberTokenView(Long memberId, String token) {
     return MemberTokenView.builder()
         .id(memberId)
         .token(token)

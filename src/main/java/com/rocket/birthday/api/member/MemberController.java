@@ -23,5 +23,4 @@ public class MemberController {
   ) {
     return memberService.findMemberByNickname(member.getMemberId(), nickname);
   }
-
 }

@@ -4,7 +4,6 @@ package com.rocket.birthday.api.message.request;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.service.message.dto.CreateMessageCommand;
 import com.rocket.birthday.service.message.vo.MessageType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,10 @@ public class PostMessageRequest {
   private MessageType messageType;
   private Long receiverId;
 
-  public CreateMessageCommand toCommand(Member sender, Member receiver) {
+  public CreateMessageCommand toCommand(
+      Member sender,
+      Member receiver
+  ) {
     return CreateMessageCommand.builder()
         .content(this.content)
         .colorCode(this.colorCode)

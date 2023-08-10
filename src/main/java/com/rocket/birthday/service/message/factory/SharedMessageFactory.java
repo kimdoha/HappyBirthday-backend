@@ -4,9 +4,9 @@ import com.rocket.birthday.model.message.Message;
 import com.rocket.birthday.service.message.dto.CreateMessageCommand;
 import java.time.ZonedDateTime;
 
-public class SharedMessage{
+public class SharedMessageFactory {
 
-  public Message from(CreateMessageCommand createMessageCommand) {
+  public static Message from(CreateMessageCommand createMessageCommand) {
     return Message.builder()
         .content(createMessageCommand.getContent())
         .colorCode(createMessageCommand.getColorCode())

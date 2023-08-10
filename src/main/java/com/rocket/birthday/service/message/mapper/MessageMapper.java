@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageMapper {
 
-  public MessageInfoView toMessageInfoView(Message message) {
+  public static MessageInfoView toMessageInfoView(Message message) {
 
     return MessageInfoView.builder()
         .id(message.getId())
@@ -32,7 +32,7 @@ public class MessageMapper {
         .build();
   }
 
-  public MessageExistInfoView toMessageExistInfoView(Long id) {
+  public static MessageExistInfoView toMessageExistInfoView(Long id) {
     return MessageExistInfoView.builder()
         .id(id)
         .exist(false)
