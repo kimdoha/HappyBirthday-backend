@@ -1,5 +1,7 @@
 package com.rocket.birthday.model.message;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
+
 import com.rocket.birthday.model.member.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,13 +60,13 @@ public class Message {
 
   @PrePersist
   public void onPrePersist() {
-    this.createdAt = ZonedDateTime.now();
-    this.updatedAt = ZonedDateTime.now();
+    this.createdAt = ZonedDateTime.now(SEOUL_ZONEID);
+    this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
   }
 
   @PreUpdate
   public void onPreUpdate() {
-    this.updatedAt = ZonedDateTime.now();
+    this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
   }
 
   public Message update(String _content, String _colorCode, ZonedDateTime _openDate) {

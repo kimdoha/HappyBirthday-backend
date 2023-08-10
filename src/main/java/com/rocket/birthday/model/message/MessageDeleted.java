@@ -1,5 +1,7 @@
 package com.rocket.birthday.model.message;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,6 +45,6 @@ public class MessageDeleted {
 
   @PrePersist
   public void onPrePersist() {
-    this.deletedAt = ZonedDateTime.now();
+    this.deletedAt = ZonedDateTime.now(SEOUL_ZONEID);
   }
 }

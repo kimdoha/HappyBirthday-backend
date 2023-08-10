@@ -1,35 +1,27 @@
 package com.rocket.birthday.model.member;
 
-import com.rocket.birthday.model.message.Message;
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "members")
 @Entity
 public class Member {
@@ -46,21 +38,30 @@ public class Member {
   @Column(name = "profile_image_url")
   private String profileImageUrl;
 
-  private LocalDate birthday;
+  private ZonedDateTime birthday;
 
-  @CreatedDate
   @Column(name = "created_at", updatable = false)
   private ZonedDateTime createdAt;
 
-  @LastModifiedDate
   @Column(name = "updated_at")
   private ZonedDateTime updatedAt;
 
-  public Member update(String nickname, String profileImageUrl, LocalDate birthday) {
-    this.nickname = nickname;
-    this.profileImageUrl = profileImageUrl;
-    this.birthday = birthday;
-    this.updatedAt = ZonedDateTime.now();
+  @PrePersist
+  public void onPrePersist() {
+    this.createdAt = ZonedDateTime.now(SEOUL_ZONEID);
+    this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
+  }
+
+  @PreUpdate
+  public void onPreUpdate() {
+    this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
+  }
+
+  public Member update(String _nickname, String _profileImageUrl, ZonedDateTime _birthday) {
+    this.nickname = _nickname;
+    this.profileImageUrl = _profileImageUrl;
+    this.birthday = _birthday;
+    this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
     return this;
   }
 }

@@ -1,5 +1,6 @@
 package com.rocket.birthday.common.constant;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import org.springframework.http.HttpStatus;
 
@@ -8,6 +9,8 @@ public class BirthdayConstants {
   public static final String BEARER = "Bearer ";
   public static final String PROPERTY_KEYS = "[\"kakao_account.profile\", \"kakao_account.name\", \"kakao_account.email\"]";
 
+  // DATE TIME
+  public static final ZoneId SEOUL_ZONEID = ZoneId.of("Asia/Seoul");
   // HTTP STATUS
   public static final int BAD_REQUEST = HttpStatus.BAD_REQUEST.value();
   public static final int UNAUTHORIZED = HttpStatus.UNAUTHORIZED.value();
