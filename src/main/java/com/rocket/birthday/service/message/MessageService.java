@@ -9,6 +9,7 @@ import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageInfoView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
+import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import com.rocket.birthday.repository.member.MemberRepository;
 import com.rocket.birthday.service.message.factory.MessageFactory;
 import com.rocket.birthday.service.message.mapper.MessageAssembler;
@@ -75,6 +76,11 @@ public class MessageService {
   @Transactional(readOnly = true)
   public TodayMessageListView getTodayAllMessages(Pageable page) {
     Slice<Message> messages = messageRepository.findSliceByOpenDate(page);
+
+    if(!messages.hasContent()) {
+      throw new MessageNotFoundException(TODAY_MESSAGE_NOT_FOUND);
+    }
+
     return TodayMessageListView.of(messages.stream().toList(), page);
   }
 
@@ -131,6 +137,6 @@ public class MessageService {
 
   private Message findMessageById(Long messageId) {
     return messageRepository.findById(messageId)
-        .orElseThrow(() -> MessageNotFoundException.EXCEPTION);
+        .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
   }
 }
