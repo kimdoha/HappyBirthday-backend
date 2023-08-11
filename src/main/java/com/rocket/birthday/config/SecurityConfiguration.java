@@ -49,7 +49,8 @@ public class SecurityConfiguration {
     http
         .authorizeHttpRequests()
         .requestMatchers(
-            "/api/v1/auth/**"
+            "/api/v1/auth/**",
+             "/api/v1/messages/**"
         ).permitAll()
         .anyRequest()
         .authenticated();

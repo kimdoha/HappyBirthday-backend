@@ -6,6 +6,7 @@ import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageInfoView;
+import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.repository.member.MemberRepository;
 import com.rocket.birthday.service.message.factory.MessageFactory;
@@ -21,6 +22,8 @@ import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +67,12 @@ public class MessageService {
 
     Message result = messageRepository.save(message);
     return MessageInfoView.from(result);
+  }
+
+  @Transactional(readOnly = true)
+  public TodayMessageListView getTodayAllMessages(Pageable page) {
+    Slice<Message> messages = messageRepository.findSliceByOpenDate(page);
+    return TodayMessageListView.of(messages, page);
   }
 
   @Transactional(readOnly = true)
