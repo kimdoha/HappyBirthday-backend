@@ -1,11 +1,13 @@
 package com.rocket.birthday.service.message;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.*;
 
 import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
-import com.rocket.birthday.api.message.response.MessageInfoView;
+import com.rocket.birthday.api.message.response.MessageDetailInfoView;
+import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.repository.member.MemberRepository;
 import com.rocket.birthday.service.message.factory.MessageFactory;
@@ -21,6 +23,8 @@ import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +39,7 @@ public class MessageService {
   private final MessageFactory messageFactory;
 
   @Transactional
-  public MessageInfoView createMessage(
+  public MessageDetailInfoView createMessage(
       Long senderId,
       PostMessageRequest postMessageRequest
   ) {
@@ -47,34 +51,47 @@ public class MessageService {
       receiver = memberRepository.findById(postMessageRequest.getReceiverId())
           .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-      if(sender.getId().equals(receiver.getId())){
-        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
-      }
+//      if(sender.getId().equals(receiver.getId())){
+//        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
+//      }
     }
 
+    if(postMessageRequest.getOpenDate().isBefore(ZonedDateTime.now(SEOUL_ZONEID))) {
+      throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE_BEFORE_NOW);
+    }
 
     Message message = messageFactory.create(
         postMessageRequest.getMessageType(),
         postMessageRequest.toCommand(sender, receiver));
 
-    if(message.equals(null)) {
+    if(message == null) {
       throw new InvalidMessageRequestException(INVALID_MESSAGE_CREATE_TYPE);
     }
 
-
     Message result = messageRepository.save(message);
-    return MessageInfoView.from(result);
+    return MessageDetailInfoView.from(result);
   }
 
   @Transactional(readOnly = true)
-  public MessageInfoView getMessageInfo(Long id) {
+  public TodayMessageListView getTodayAllMessages(Pageable page) {
+    Slice<Message> messages = messageRepository.findSliceByOpenDate(page);
+
+    if(!messages.hasContent()) {
+      throw new MessageNotFoundException(TODAY_MESSAGE_NOT_FOUND);
+    }
+
+    return TodayMessageListView.of(messages.stream().toList(), page);
+  }
+
+  @Transactional(readOnly = true)
+  public MessageDetailInfoView getMessageInfo(Long id) {
     Message message = findMessageById(id);
 
-    return MessageInfoView.from(message);
+    return MessageDetailInfoView.from(message);
   }
 
   @Transactional
-  public MessageInfoView updateMessage(
+  public MessageDetailInfoView updateMessage(
       Long messageId,
       Long memberId,
       UpdateMessageRequest updateMessageRequest
@@ -96,7 +113,7 @@ public class MessageService {
     );
 
     Message result = messageRepository.save(updatedMessage);
-    return MessageInfoView.from(result);
+    return MessageDetailInfoView.from(result);
   }
 
   @Transactional
@@ -119,6 +136,6 @@ public class MessageService {
 
   private Message findMessageById(Long messageId) {
     return messageRepository.findById(messageId)
-        .orElseThrow(() -> MessageNotFoundException.EXCEPTION);
+        .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
   }
 }
