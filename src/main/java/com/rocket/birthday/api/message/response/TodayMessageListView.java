@@ -29,14 +29,14 @@ public class TodayMessageListView {
   }
 
   public static TodayMessageListView of(
-      Slice<Message> messages,
+      List<Message> messages,
       Pageable page
   ) {
     return TodayMessageListView.builder()
-        .messages(messages.stream().collect(Collectors.toList()))
+        .messages(messages)
         .page(
             PageInfo.builder()
-                .offset((int) page.getPageNumber() * page.getPageSize())
+                .offset(page.getPageNumber() * page.getPageSize())
                 .limit(page.getPageSize())
                 .build())
         .build();

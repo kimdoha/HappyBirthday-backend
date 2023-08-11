@@ -1,5 +1,6 @@
 package com.rocket.birthday.service.message;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
 import static com.rocket.birthday.common.exception.enums.BaseErrorCode.*;
 
 import com.rocket.birthday.api.message.request.PostMessageRequest;
@@ -50,20 +51,22 @@ public class MessageService {
       receiver = memberRepository.findById(postMessageRequest.getReceiverId())
           .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-      if(sender.getId().equals(receiver.getId())){
-        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
-      }
+//      if(sender.getId().equals(receiver.getId())){
+//        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
+//      }
     }
 
+    if(postMessageRequest.getOpenDate().isBefore(ZonedDateTime.now(SEOUL_ZONEID))) {
+      throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE_BEFORE_NOW);
+    }
 
     Message message = messageFactory.create(
         postMessageRequest.getMessageType(),
         postMessageRequest.toCommand(sender, receiver));
 
-    if(message.equals(null)) {
+    if(message == null) {
       throw new InvalidMessageRequestException(INVALID_MESSAGE_CREATE_TYPE);
     }
-
 
     Message result = messageRepository.save(message);
     return MessageInfoView.from(result);
@@ -72,7 +75,7 @@ public class MessageService {
   @Transactional(readOnly = true)
   public TodayMessageListView getTodayAllMessages(Pageable page) {
     Slice<Message> messages = messageRepository.findSliceByOpenDate(page);
-    return TodayMessageListView.of(messages, page);
+    return TodayMessageListView.of(messages.stream().toList(), page);
   }
 
   @Transactional(readOnly = true)

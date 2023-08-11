@@ -12,7 +12,7 @@ public class SharedMessageFactory {
     return Message.builder()
         .content(createMessageCommand.getContent())
         .colorCode(createMessageCommand.getColorCode())
-        .openDate(ZonedDateTime.parse(createMessageCommand.getOpenDate()))
+        .openDate(createMessageCommand.getOpenDate())
         .to(null)
         .from(createMessageCommand.getSender())
         .build();

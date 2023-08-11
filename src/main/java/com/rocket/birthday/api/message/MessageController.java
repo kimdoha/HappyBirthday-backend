@@ -7,7 +7,6 @@ import com.rocket.birthday.api.message.response.MessageInfoView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.service.member.dto.MemberDetails;
 import com.rocket.birthday.service.message.MessageService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;

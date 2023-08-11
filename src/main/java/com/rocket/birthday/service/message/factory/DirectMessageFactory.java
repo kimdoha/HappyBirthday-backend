@@ -11,7 +11,7 @@ public class DirectMessageFactory {
     return Message.builder()
         .content(createMessageCommand.getContent())
         .colorCode(createMessageCommand.getColorCode())
-        .openDate(ZonedDateTime.parse(createMessageCommand.getOpenDate()))
+        .openDate(createMessageCommand.getOpenDate())
         .to(createMessageCommand.getReceiver())
         .from(createMessageCommand.getSender())
         .build();

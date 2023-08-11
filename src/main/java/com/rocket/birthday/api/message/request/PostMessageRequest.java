@@ -4,6 +4,7 @@ package com.rocket.birthday.api.message.request;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.service.message.dto.CreateMessageCommand;
 import com.rocket.birthday.service.message.vo.MessageType;
+import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class PostMessageRequest {
   private String content;
   private String colorCode;
-  private String openDate;
+  private ZonedDateTime openDate;
   private MessageType messageType;
   private Long receiverId;
 
