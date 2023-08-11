@@ -1,6 +1,8 @@
 package com.rocket.birthday.api.message.request;
 
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
+
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.service.message.dto.CreateMessageCommand;
 import com.rocket.birthday.service.message.vo.MessageType;

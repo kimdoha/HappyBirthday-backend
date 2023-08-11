@@ -1,5 +1,7 @@
 package com.rocket.birthday.api.message.response;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
+
 import com.rocket.birthday.model.message.Message;
 import java.time.ZonedDateTime;
 import lombok.AccessLevel;
