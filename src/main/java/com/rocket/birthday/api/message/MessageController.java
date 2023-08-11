@@ -40,11 +40,11 @@ public class MessageController {
 
   @GetMapping("/messages")
   public TodayMessageListView getTodayMessages(
-      @RequestParam Integer offset,
+      @RequestParam Integer page,
       @RequestParam Integer limit
   ) {
     return messageService.getTodayAllMessages(
-        PageRequest.of(offset, limit)
+        PageRequest.of(page, limit)
     );
   }
 

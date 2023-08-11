@@ -2,21 +2,19 @@ package com.rocket.birthday.api.message.response;
 
 import com.rocket.birthday.model.message.Message;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class TodayMessageListView {
-  private List<Message> messages;
+  private List<MessageInfoView> messages;
   private PageInfo page;
 
   @Getter
@@ -33,7 +31,8 @@ public class TodayMessageListView {
       Pageable page
   ) {
     return TodayMessageListView.builder()
-        .messages(messages)
+        .messages(
+            messages.stream().map((message) -> MessageInfoView.from(message)).toList())
         .page(
             PageInfo.builder()
                 .offset(page.getPageNumber() * page.getPageSize())

@@ -11,10 +11,13 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
 public class MessageRepositoryImpl implements MessageRepositoryCustom{
 
@@ -22,11 +25,12 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom{
 
   @Override
   public Slice<Message> findSliceByOpenDate(Pageable page) {
+
     List<Message> messages = queryFactory.select(QMessage.message)
         .from(QMessage.message)
         .where(QMessage.message.openDate.between(
             ZonedDateTime.of(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)), SEOUL_ZONEID ),
-            ZonedDateTime.of(LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 59, 59)), SEOUL_ZONEID)
+            ZonedDateTime.of(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)), SEOUL_ZONEID)
         ))
         .offset((long) page.getPageNumber() * page.getPageSize())
         .limit(page.getPageSize() + 1)
