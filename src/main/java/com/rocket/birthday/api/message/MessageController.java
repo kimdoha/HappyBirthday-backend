@@ -3,7 +3,7 @@ package com.rocket.birthday.api.message;
 import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
-import com.rocket.birthday.api.message.response.MessageInfoView;
+import com.rocket.birthday.api.message.response.MessageDetailInfoView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.service.member.dto.MemberDetails;
 import com.rocket.birthday.service.message.MessageService;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
   private final MessageService messageService;
   @PostMapping("/message")
-  public MessageInfoView postMessage(
+  public MessageDetailInfoView postMessage(
       @RequestBody PostMessageRequest postMessageRequest,
       @AuthenticationPrincipal MemberDetails member
   ) {
@@ -49,14 +49,14 @@ public class MessageController {
   }
 
   @GetMapping("/message/{id}")
-  public MessageInfoView getMessageDetailInfo(
+  public MessageDetailInfoView getMessageDetailInfo(
       @PathVariable Long id
   ) {
     return messageService.getMessageInfo(id);
   }
 
   @PatchMapping("/message/{id}")
-  public MessageInfoView updateMessage(
+  public MessageDetailInfoView updateMessage(
       @PathVariable Long id,
       @RequestBody UpdateMessageRequest updateMessageRequest,
       @AuthenticationPrincipal MemberDetails member

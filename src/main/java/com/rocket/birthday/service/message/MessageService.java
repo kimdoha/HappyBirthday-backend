@@ -6,10 +6,9 @@ import static com.rocket.birthday.common.exception.enums.BaseErrorCode.*;
 import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
-import com.rocket.birthday.api.message.response.MessageInfoView;
+import com.rocket.birthday.api.message.response.MessageDetailInfoView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
-import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import com.rocket.birthday.repository.member.MemberRepository;
 import com.rocket.birthday.service.message.factory.MessageFactory;
 import com.rocket.birthday.service.message.mapper.MessageAssembler;
@@ -40,7 +39,7 @@ public class MessageService {
   private final MessageFactory messageFactory;
 
   @Transactional
-  public MessageInfoView createMessage(
+  public MessageDetailInfoView createMessage(
       Long senderId,
       PostMessageRequest postMessageRequest
   ) {
@@ -70,7 +69,7 @@ public class MessageService {
     }
 
     Message result = messageRepository.save(message);
-    return MessageInfoView.from(result);
+    return MessageDetailInfoView.from(result);
   }
 
   @Transactional(readOnly = true)
@@ -85,14 +84,14 @@ public class MessageService {
   }
 
   @Transactional(readOnly = true)
-  public MessageInfoView getMessageInfo(Long id) {
+  public MessageDetailInfoView getMessageInfo(Long id) {
     Message message = findMessageById(id);
 
-    return MessageInfoView.from(message);
+    return MessageDetailInfoView.from(message);
   }
 
   @Transactional
-  public MessageInfoView updateMessage(
+  public MessageDetailInfoView updateMessage(
       Long messageId,
       Long memberId,
       UpdateMessageRequest updateMessageRequest
@@ -114,7 +113,7 @@ public class MessageService {
     );
 
     Message result = messageRepository.save(updatedMessage);
-    return MessageInfoView.from(result);
+    return MessageDetailInfoView.from(result);
   }
 
   @Transactional
