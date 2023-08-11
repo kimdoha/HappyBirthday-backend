@@ -33,7 +33,7 @@ public class MemberService {
     Member member = memberRepository.findByNickname(nickname)
         .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND) );
 
-    return memberMapper.toMemberExistInfoView(member.getId());
+    return MemberMapper.from(member.getId());
   }
 
   @Transactional

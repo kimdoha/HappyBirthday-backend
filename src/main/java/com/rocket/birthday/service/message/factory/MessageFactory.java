@@ -12,8 +12,8 @@ public class MessageFactory {
       CreateMessageCommand createMessageCommand
   ) {
     Message message = null;
-    if(messageType.equals(MessageType.DIRECT)) message = DirectMessageFactory.from(createMessageCommand);
-    if(messageType.equals(MessageType.SHARED)) message = SharedMessageFactory.from(createMessageCommand);
+    if(messageType.equals(MessageType.DIRECT)) message = new DirectMessageFactory().create(createMessageCommand);
+    if(messageType.equals(MessageType.SHARED)) message = new SharedMessageFactory().create(createMessageCommand);
     return message;
   }
 }
