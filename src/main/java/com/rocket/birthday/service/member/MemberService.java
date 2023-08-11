@@ -4,7 +4,7 @@ import static com.rocket.birthday.common.exception.enums.BaseErrorCode.MEMBER_NO
 
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.member.response.MemberExistInfoView;
-import com.rocket.birthday.service.member.mapper.MemberMapper;
+import com.rocket.birthday.service.member.mapper.MemberAssembler;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.repository.member.MemberRepository;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
-  private final MemberMapper memberMapper;
+  private final MemberAssembler memberAssembler;
 
   @Transactional(readOnly = true)
   public Member findOne(Long id) {
@@ -28,18 +28,21 @@ public class MemberService {
   }
 
   @Transactional(readOnly = true)
-  public MemberExistInfoView findMemberByNickname(Long memberId, String nickname) {
+  public MemberExistInfoView findMemberByNickname(
+      Long memberId,
+      String nickname
+  ) {
 
     Member member = memberRepository.findByNickname(nickname)
-        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND) );
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-    return MemberMapper.from(member.getId());
+    return MemberExistInfoView.from(member.getId());
   }
 
   @Transactional
   public Member create(KakaoUserInfoView kakaoUserInfo) {
 
-    Member member = memberMapper.toEntity(kakaoUserInfo);
+    Member member = memberAssembler.toMemberEntity(kakaoUserInfo);
     return memberRepository.save(member);
   }
 }

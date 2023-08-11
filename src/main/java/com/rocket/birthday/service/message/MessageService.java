@@ -9,7 +9,7 @@ import com.rocket.birthday.api.message.response.MessageInfoView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.repository.member.MemberRepository;
 import com.rocket.birthday.service.message.factory.MessageFactory;
-import com.rocket.birthday.service.message.mapper.MessageMapper;
+import com.rocket.birthday.service.message.mapper.MessageAssembler;
 import com.rocket.birthday.common.exception.custom.message.InvalidMessageRequestException;
 import com.rocket.birthday.common.exception.custom.message.MessageNotFoundException;
 import com.rocket.birthday.model.member.Member;
@@ -29,7 +29,7 @@ public class MessageService {
   private final MemberRepository memberRepository;
   private final MessageRepository messageRepository;
   private final MessageDeletedRepository messageDeletedRepository;
-  private final MessageMapper messageMapper;
+  private final MessageAssembler messageAssembler;
   private final MessageFactory messageFactory;
 
   @Transactional
@@ -60,14 +60,14 @@ public class MessageService {
     }
 
     Message result = messageRepository.save(message);
-    return messageMapper.toMessageInfoView(result);
+    return MessageInfoView.from(result);
   }
 
   @Transactional(readOnly = true)
   public MessageInfoView getMessageInfo(Long id) {
     Message message = findMessageById(id);
 
-    return messageMapper.toMessageInfoView(message);
+    return MessageInfoView.from(message);
   }
 
   @Transactional
@@ -89,22 +89,25 @@ public class MessageService {
     );
 
     Message result = messageRepository.save(updatedMessage);
-    return messageMapper.toMessageInfoView(result);
+    return MessageInfoView.from(result);
   }
 
   @Transactional
-  public MessageExistInfoView deleteMessage(Long messageId, Long memberId) {
+  public MessageExistInfoView deleteMessage(
+      Long messageId,
+      Long memberId
+  ) {
     Message message = findMessageById(messageId);
 
     if(!message.getFrom().getId().equals(memberId)) {
       throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_DELETE);
     }
 
-    MessageDeleted deletedMessage = messageMapper.toMessageDeletedEntity(message);
+    MessageDeleted deletedMessage = messageAssembler.toMessageDeletedEntity(message);
     messageDeletedRepository.save(deletedMessage);
     messageRepository.delete(message);
 
-    return messageMapper.toMessageExistInfoView(messageId);
+    return MessageExistInfoView.from(messageId);
   }
 
   private Message findMessageById(Long messageId) {

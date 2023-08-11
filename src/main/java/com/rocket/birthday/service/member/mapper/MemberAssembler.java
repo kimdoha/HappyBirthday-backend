@@ -1,17 +1,13 @@
 package com.rocket.birthday.service.member.mapper;
 
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
-import com.rocket.birthday.api.member.response.MemberExistInfoView;
 import com.rocket.birthday.model.member.Member;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MemberMapper {
-  public static MemberExistInfoView from(Long id) {
-    return new MemberExistInfoView(id, true);
-  }
+public class MemberAssembler {
 
-  public Member toEntity(KakaoUserInfoView kakaoUserInfo) {
+  public Member toMemberEntity(KakaoUserInfoView kakaoUserInfo) {
     return Member.builder()
         .email(kakaoUserInfo.getKakao_account().getEmail())
         .nickname(kakaoUserInfo.getKakao_account().getProfile().getNickname())
