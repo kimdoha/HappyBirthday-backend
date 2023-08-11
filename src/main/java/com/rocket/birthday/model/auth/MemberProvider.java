@@ -1,30 +1,20 @@
 package com.rocket.birthday.model.auth;
 
+import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
+
 import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.vo.ProviderType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "member_providers")
 @Entity
 public class MemberProvider {
@@ -42,4 +32,12 @@ public class MemberProvider {
   @Column(name = "provider")
   @Enumerated(EnumType.STRING)
   private ProviderType provider;
+
+  @Column(name = "created_at", updatable = false)
+  private ZonedDateTime createdAt;
+
+  @PrePersist
+  public void onPrePersist() {
+    this.createdAt = ZonedDateTime.now(SEOUL_ZONEID);
+  }
 }

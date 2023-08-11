@@ -1,10 +1,10 @@
-package com.rocket.birthday.api.jwt;
+package com.rocket.birthday.service.jwt;
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.AUTHORIZATION_HEADER;
 import static com.rocket.birthday.common.constant.BirthdayConstants.BEARER;
 
 import com.rocket.birthday.config.jwt.JwtPropertiesConfiguration;
-import com.rocket.birthday.service.member.dtos.MemberDetails;
+import com.rocket.birthday.service.member.dto.MemberDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +14,6 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 @Slf4j
@@ -29,27 +28,27 @@ public class JwtTokenProvider {
     Date expireDate = new Date( now.getTime() + propertiesConfiguration.getExpireTime() );
 
     return Jwts.builder()
-        .setSubject(memberName)
-        .claim("memberId", memberId)
+        .setSubject(String.valueOf(memberId))
+        .claim("memberName", memberName)
         .setIssuedAt(now)
-        .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecretKey())
+        .signWith(SignatureAlgorithm.HS256, propertiesConfiguration.getSecretKey().getBytes())
         .setExpiration(expireDate)
         .compact();
   }
 
-  public Authentication getAuthentication(String token) {
-    Claims claims = getClaims(token);
-    Long memberId = (Long) claims.get("memberId");
-    MemberDetails principal = new MemberDetails(memberId);
+  public UsernamePasswordAuthenticationToken getAuthentication(String token) {
+    Claims claims = getClaims( token );
+    Long memberId = Long.valueOf(claims.getSubject());
 
-    return new UsernamePasswordAuthenticationToken(principal, token);
+    MemberDetails principal = new MemberDetails( memberId );
+    return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
   }
 
   public Claims getClaims(String token) {
     return Jwts.parserBuilder()
-        .setSigningKey(propertiesConfiguration.getSecretKey())
+        .setSigningKey(propertiesConfiguration.getSecretKey().getBytes())
         .build()
-        .parseClaimsJwt(token)
+        .parseClaimsJws(token)
         .getBody();
   }
 
@@ -66,9 +65,9 @@ public class JwtTokenProvider {
   public boolean validateToken(String token) {
     try {
       Jwts.parserBuilder()
-          .setSigningKey(propertiesConfiguration.getSecretKey())
+          .setSigningKey(propertiesConfiguration.getSecretKey().getBytes())
           .build()
-          .parseClaimsJwt(token);
+          .parseClaimsJws(token);
 
       return true;
     } catch (JwtException exception) {

@@ -1,4 +1,4 @@
-package com.rocket.birthday.api.auth.response;
+package com.rocket.birthday.api.message.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class MemberTokenView {
+public class MessageExistInfoView {
   private Long id;
-  private String token;
+  private Boolean exist;
 
-  public static MemberTokenView of(
+  public static MessageExistInfoView of(
       Long id,
-      String token
+      Boolean exist
   ) {
-    return MemberTokenView.builder()
+    return MessageExistInfoView.builder()
         .id(id)
-        .token(token)
+        .exist(exist)
         .build();
   }
 }

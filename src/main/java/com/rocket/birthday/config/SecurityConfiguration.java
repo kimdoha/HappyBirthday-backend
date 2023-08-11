@@ -1,8 +1,8 @@
 package com.rocket.birthday.config;
 
-import com.rocket.birthday.api.jwt.JwtAuthenticationEntryPoint;
-import com.rocket.birthday.api.jwt.JwtTokenProvider;
-import com.rocket.birthday.api.jwt.JwtAccessDeniedHandler;
+import com.rocket.birthday.service.jwt.JwtAuthenticationEntryPoint;
+import com.rocket.birthday.service.jwt.JwtTokenProvider;
+import com.rocket.birthday.service.jwt.JwtAccessDeniedHandler;
 import com.rocket.birthday.config.jwt.JwtSecurityConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +47,7 @@ public class SecurityConfiguration {
         .cors().and()
         .csrf().disable();
     http
-        .authorizeRequests()
+        .authorizeHttpRequests()
         .requestMatchers(
             "/api/v1/auth/**"
         ).permitAll()

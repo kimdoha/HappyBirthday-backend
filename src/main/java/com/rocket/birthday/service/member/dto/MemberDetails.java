@@ -1,18 +1,21 @@
-package com.rocket.birthday.service.member.dtos;
+package com.rocket.birthday.service.member.dto;
 
 import java.util.Collection;
+import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MemberDetails implements UserDetails {
   private final Long memberId;
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return List.of(new SimpleGrantedAuthority("ROLE_USER"));
   }
 
   @Override
@@ -22,7 +25,7 @@ public class MemberDetails implements UserDetails {
 
   @Override
   public String getUsername() {
-    return null;
+    return memberId.toString();
   }
 
   @Override
@@ -42,6 +45,6 @@ public class MemberDetails implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return false;
+    return true;
   }
 }

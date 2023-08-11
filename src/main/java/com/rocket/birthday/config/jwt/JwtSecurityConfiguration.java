@@ -1,7 +1,7 @@
 package com.rocket.birthday.config.jwt;
 
-import com.rocket.birthday.api.jwt.JwtTokenFilter;
-import com.rocket.birthday.api.jwt.JwtTokenProvider;
+import com.rocket.birthday.service.jwt.JwtTokenFilter;
+import com.rocket.birthday.service.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
