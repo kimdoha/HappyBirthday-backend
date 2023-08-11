@@ -14,10 +14,13 @@ public class MessageExistInfoView {
   private Long id;
   private Boolean exist;
 
-  public static MessageExistInfoView from(Long id) {
+  public static MessageExistInfoView of(
+      Long id,
+      Boolean exist
+  ) {
     return MessageExistInfoView.builder()
         .id(id)
-        .exist(true)
+        .exist(exist)
         .build();
   }
 }

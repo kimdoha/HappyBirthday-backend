@@ -20,9 +20,11 @@ import com.rocket.birthday.repository.message.MessageRepository;
 import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MessageService {
@@ -44,6 +46,10 @@ public class MessageService {
     if(postMessageRequest.getMessageType().equals(MessageType.DIRECT)){
       receiver = memberRepository.findById(postMessageRequest.getReceiverId())
           .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+
+      if(sender.getId().equals(receiver.getId())){
+        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
+      }
     }
 
 
@@ -55,9 +61,6 @@ public class MessageService {
       throw new InvalidMessageRequestException(INVALID_MESSAGE_CREATE_TYPE);
     }
 
-    if(sender.getId().equals(receiver.getId())){
-      throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
-    }
 
     Message result = messageRepository.save(message);
     return MessageInfoView.from(result);
@@ -71,7 +74,11 @@ public class MessageService {
   }
 
   @Transactional
-  public MessageInfoView updateMessage(Long messageId, Long memberId, UpdateMessageRequest updateMessageRequest) {
+  public MessageInfoView updateMessage(
+      Long messageId,
+      Long memberId,
+      UpdateMessageRequest updateMessageRequest
+  ) {
     Message message = findMessageById(messageId);
 
     if(!message.getFrom().getId().equals(memberId)) {
@@ -107,7 +114,7 @@ public class MessageService {
     messageDeletedRepository.save(deletedMessage);
     messageRepository.delete(message);
 
-    return MessageExistInfoView.from(messageId);
+    return MessageExistInfoView.of(messageId, false);
   }
 
   private Message findMessageById(Long messageId) {

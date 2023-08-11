@@ -30,7 +30,10 @@ public class MessageController {
       @RequestBody PostMessageRequest postMessageRequest,
       @AuthenticationPrincipal MemberDetails member
   ) {
-    return messageService.createMessage(member.getMemberId(), postMessageRequest );
+    return messageService.createMessage(
+        member.getMemberId(),
+        postMessageRequest
+    );
   }
 
   @GetMapping("/{id}")

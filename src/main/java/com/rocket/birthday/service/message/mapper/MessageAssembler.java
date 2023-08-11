@@ -12,7 +12,7 @@ public class MessageAssembler {
         .content(message.getContent())
         .colorCode(message.getColorCode())
         .openDate(message.getOpenDate())
-        .to(message.getTo().getId())
+        .to(message.getTo() == null ? null : message.getTo().getId())
         .from(message.getFrom().getId())
         .build();
   }
