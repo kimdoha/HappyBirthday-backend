@@ -1,7 +1,7 @@
 package com.rocket.birthday.service.auth;
 
-import com.rocket.birthday.model.auth.MemberProvider;
-import com.rocket.birthday.model.member.Member;
+import com.rocket.birthday.model.auth.MemberProviderEntity;
+import com.rocket.birthday.model.member.MemberEntity;
 import com.rocket.birthday.model.member.vo.ProviderType;
 import com.rocket.birthday.repository.auth.MemberProviderRepository;
 import com.rocket.birthday.service.auth.mapper.AuthAssembler;
@@ -16,17 +16,18 @@ public class MemberProviderService {
   private final AuthAssembler authAssembler;
 
   @Transactional(readOnly = true)
-  public MemberProvider findOneBy(String oid, ProviderType provider) {
+  public MemberProviderEntity findOneBy(String oid, ProviderType provider) {
     return memberProviderRepository.findByOidAndProvider(oid, provider);
   }
 
   @Transactional
-  public MemberProvider create(
+  public MemberProviderEntity create(
       String oid,
       ProviderType provider,
-      Member member
+      MemberEntity memberEntity
   ) {
-    MemberProvider memberProvider = authAssembler.toMemberProviderEntity(oid, provider, member);
-    return memberProviderRepository.save(memberProvider);
+    MemberProviderEntity memberProviderEntity = authAssembler.toMemberProviderEntity(oid, provider,
+        memberEntity );
+    return memberProviderRepository.save( memberProviderEntity );
   }
 }

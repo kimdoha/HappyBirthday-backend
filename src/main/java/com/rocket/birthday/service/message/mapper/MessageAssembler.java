@@ -1,19 +1,19 @@
 package com.rocket.birthday.service.message.mapper;
 
-import com.rocket.birthday.model.message.Message;
-import com.rocket.birthday.model.message.MessageDeleted;
+import com.rocket.birthday.model.message.MessageDeleteEntity;
+import com.rocket.birthday.model.message.MessageEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageAssembler {
 
-  public MessageDeleted toMessageDeletedEntity(Message message) {
-    return MessageDeleted.builder()
-        .content(message.getContent())
-        .colorCode(message.getColorCode())
-        .openDate(message.getOpenDate())
-        .to(message.getTo() == null ? null : message.getTo().getId())
-        .from(message.getFrom().getId())
+  public MessageDeleteEntity toMessageDeletedEntity(MessageEntity messageEntity) {
+    return MessageDeleteEntity.builder()
+        .content( messageEntity.getContent())
+        .colorCode( messageEntity.getColorCode())
+        .openDate( messageEntity.getOpenDate())
+        .to( messageEntity.getTo() == null ? null : messageEntity.getTo().getId())
+        .from( messageEntity.getFrom().getId())
         .build();
   }
 }

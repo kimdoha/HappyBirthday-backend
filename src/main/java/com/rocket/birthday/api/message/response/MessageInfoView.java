@@ -1,6 +1,6 @@
 package com.rocket.birthday.api.message.response;
 
-import com.rocket.birthday.model.message.Message;
+import com.rocket.birthday.model.message.MessageEntity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,12 +18,12 @@ public class MessageInfoView {
   private String colorCode;
   private String from;
 
-  public static MessageInfoView from(Message message) {
+  public static MessageInfoView from(MessageEntity messageEntity) {
     return MessageInfoView.builder()
-        .id(message.getId())
-        .content(message.getContent())
-        .colorCode(message.getColorCode())
-        .from(message.getFrom().getNickname())
+        .id( messageEntity.getId())
+        .content( messageEntity.getContent())
+        .colorCode( messageEntity.getColorCode())
+        .from( messageEntity.getFrom().getNickname())
         .build();
   }
 }

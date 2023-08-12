@@ -2,8 +2,8 @@ package com.rocket.birthday.model.report;
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
 
-import com.rocket.birthday.model.member.Member;
-import com.rocket.birthday.model.message.Message;
+import com.rocket.birthday.model.member.MemberEntity;
+import com.rocket.birthday.model.message.MessageEntity;
 import com.rocket.birthday.model.report.vo.ReportType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,11 +40,11 @@ public class ReportEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "message_id", referencedColumnName = "id")
-  private Message message;
+  private MessageEntity messageEntity;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id", referencedColumnName = "id")
-  private Member member;
+  private MemberEntity memberEntity;
 
   private ZonedDateTime createdAt;
 

@@ -1,6 +1,6 @@
 package com.rocket.birthday.api.message.response;
 
-import com.rocket.birthday.model.message.Message;
+import com.rocket.birthday.model.message.MessageEntity;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,12 +27,12 @@ public class TodayMessageListView {
   }
 
   public static TodayMessageListView of(
-      List<Message> messages,
+      List<MessageEntity> messageEntities,
       Pageable page
   ) {
     return TodayMessageListView.builder()
         .messages(
-            messages.stream().map((message) -> MessageInfoView.from(message)).toList())
+            messageEntities.stream().map((message) -> MessageInfoView.from(message)).toList())
         .page(
             PageInfo.builder()
                 .offset(page.getPageNumber() * page.getPageSize())
