@@ -1,6 +1,6 @@
 package com.rocket.birthday.service.message.dto;
 
-import com.rocket.birthday.model.member.Member;
+import com.rocket.birthday.model.member.MemberEntity;
 import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +15,6 @@ public class CreateMessageCommand {
   private String content;
   private String colorCode;
   private ZonedDateTime openDate;
-  private Member sender;
-  private Member receiver;
+  private MemberEntity sender;
+  private MemberEntity receiver;
 }

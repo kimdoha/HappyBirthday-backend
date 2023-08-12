@@ -7,10 +7,10 @@ import com.rocket.birthday.api.auth.request.KakaoOAuthTokenRequest;
 import com.rocket.birthday.api.auth.response.KakaoOAuthTokenView;
 import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.auth.response.MemberTokenView;
+import com.rocket.birthday.model.member.MemberEntity;
 import com.rocket.birthday.service.auth.mapper.AuthAssembler;
 import com.rocket.birthday.service.jwt.JwtTokenProvider;
 import com.rocket.birthday.config.auth.KakaoPropertiesConfiguration;
-import com.rocket.birthday.model.member.Member;
 import com.rocket.birthday.model.member.vo.ProviderType;
 import com.rocket.birthday.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -56,24 +56,25 @@ public class AuthService {
 
     return authInfo == null ?
         signUpMember(kakaoUserInfo) :
-        signInMember(authInfo.getMember().getId());
+        signInMember(authInfo.getMemberEntity().getId());
   }
 
   public MemberTokenView signUpMember(KakaoUserInfoView kakaoUserInfo) {
-    Member member = memberService.create(kakaoUserInfo);
-    memberProviderService.create(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO, member);
+    MemberEntity memberEntity = memberService.create(kakaoUserInfo);
+    memberProviderService.create(String.valueOf(kakaoUserInfo.getId()), ProviderType.KAKAO,
+        memberEntity );
 
-    return getMemberToken(member);
+    return getMemberToken( memberEntity );
   }
 
   public MemberTokenView signInMember(Long memberId) {
-    Member member = memberService.findOne(memberId);
-    return getMemberToken(member);
+    MemberEntity memberEntity = memberService.findOne(memberId);
+    return getMemberToken( memberEntity );
   }
 
-  public MemberTokenView getMemberToken(Member member) {
-    String token = jwtTokenProvider.generateToken(member.getId(), member.getNickname());
+  public MemberTokenView getMemberToken(MemberEntity memberEntity) {
+    String token = jwtTokenProvider.generateToken( memberEntity.getId(), memberEntity.getNickname());
 
-    return MemberTokenView.of(member.getId(), token);
+    return MemberTokenView.of( memberEntity.getId(), token);
   }
 }

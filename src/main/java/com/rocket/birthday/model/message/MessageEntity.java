@@ -2,10 +2,9 @@ package com.rocket.birthday.model.message;
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
 
-import com.rocket.birthday.model.member.Member;
+import com.rocket.birthday.model.member.MemberEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Builder
@@ -29,7 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @Table(name = "messages")
 @Entity
-public class Message {
+public class MessageEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -40,11 +38,11 @@ public class Message {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "from_member_id", referencedColumnName = "id")
-  private Member from;
+  private MemberEntity from;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "to_member_id", referencedColumnName = "id")
-  private Member to;
+  private MemberEntity to;
 
   @Column(name = "color_code")
   private String colorCode;
@@ -69,7 +67,7 @@ public class Message {
     this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
   }
 
-  public Message update(String _content, String _colorCode, ZonedDateTime _openDate) {
+  public MessageEntity update(String _content, String _colorCode, ZonedDateTime _openDate) {
     this.content = _content;
     this.colorCode = _colorCode;
     this.openDate = _openDate;

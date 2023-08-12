@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "members")
 @Entity
-public class Member {
+public class MemberEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -57,7 +57,7 @@ public class Member {
     this.updatedAt = ZonedDateTime.now(SEOUL_ZONEID);
   }
 
-  public Member update(String _nickname, String _profileImageUrl, ZonedDateTime _birthday) {
+  public MemberEntity update(String _nickname, String _profileImageUrl, ZonedDateTime _birthday) {
     this.nickname = _nickname;
     this.profileImageUrl = _profileImageUrl;
     this.birthday = _birthday;

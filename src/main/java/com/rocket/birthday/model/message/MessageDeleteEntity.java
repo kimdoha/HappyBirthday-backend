@@ -1,4 +1,4 @@
-package com.rocket.birthday.model.member;
+package com.rocket.birthday.model.message;
 
 import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
 
@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,28 +17,30 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "members_deleted")
+@NoArgsConstructor
+@Table(name = "messages_delete")
 @Entity
-public class MemberDeleted {
+public class MessageDeleteEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, unique = true)
-  private String email;
+  private String content;
 
-  @Column(nullable = false, unique = true)
-  private String nickname;
+  @Column(name = "from_member_id")
+  private Long from;
 
-  @Column(name = "profile_image_url")
-  private String profileImageUrl;
+  @Column(name = "to_member_id")
+  private Long to;
 
-  @Column(nullable = false)
-  private LocalDate birthday;
+  @Column(name = "color_code")
+  private String colorCode;
 
-  @Column(name = "deleted_at", updatable = false)
+  @Column(name = "open_date")
+  private ZonedDateTime openDate;
+
+  @Column(name = "deleted_at")
   private ZonedDateTime deletedAt;
 
   @PrePersist

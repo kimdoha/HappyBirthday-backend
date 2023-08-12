@@ -9,14 +9,14 @@ import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageDetailInfoView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
+import com.rocket.birthday.model.member.MemberEntity;
+import com.rocket.birthday.model.message.MessageEntity;
 import com.rocket.birthday.repository.member.MemberRepository;
 import com.rocket.birthday.service.message.factory.MessageFactory;
 import com.rocket.birthday.service.message.mapper.MessageAssembler;
 import com.rocket.birthday.common.exception.custom.message.InvalidMessageRequestException;
 import com.rocket.birthday.common.exception.custom.message.MessageNotFoundException;
-import com.rocket.birthday.model.member.Member;
-import com.rocket.birthday.model.message.Message;
-import com.rocket.birthday.model.message.MessageDeleted;
+import com.rocket.birthday.model.message.MessageDeleteEntity;
 import com.rocket.birthday.repository.message.MessageDeletedRepository;
 import com.rocket.birthday.repository.message.MessageRepository;
 import com.rocket.birthday.service.message.vo.MessageType;
@@ -43,10 +43,10 @@ public class MessageService {
       Long senderId,
       PostMessageRequest postMessageRequest
   ) {
-    Member sender = memberRepository.findById(senderId)
+    MemberEntity sender = memberRepository.findById(senderId)
         .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-    Member receiver = null;
+    MemberEntity receiver = null;
     if(postMessageRequest.getMessageType().equals(MessageType.DIRECT)){
       receiver = memberRepository.findById(postMessageRequest.getReceiverId())
           .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
@@ -60,21 +60,21 @@ public class MessageService {
       throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE_BEFORE_NOW);
     }
 
-    Message message = messageFactory.create(
+    MessageEntity messageEntity = messageFactory.create(
         postMessageRequest.getMessageType(),
         postMessageRequest.toCommand(sender, receiver));
 
-    if(message == null) {
+    if(messageEntity == null) {
       throw new InvalidMessageRequestException(INVALID_MESSAGE_CREATE_TYPE);
     }
 
-    Message result = messageRepository.save(message);
+    MessageEntity result = messageRepository.save( messageEntity );
     return MessageDetailInfoView.from(result);
   }
 
   @Transactional(readOnly = true)
   public TodayMessageListView getTodayAllMessages(Pageable page) {
-    Slice<Message> messages = messageRepository.findSliceByOpenDate(page);
+    Slice<MessageEntity> messages = messageRepository.findSliceByOpenDate(page);
 
     if(!messages.hasContent()) {
       throw new MessageNotFoundException(TODAY_MESSAGE_NOT_FOUND);
@@ -85,9 +85,9 @@ public class MessageService {
 
   @Transactional(readOnly = true)
   public MessageDetailInfoView getMessageInfo(Long id) {
-    Message message = findMessageById(id);
+    MessageEntity messageEntity = findMessageById(id);
 
-    return MessageDetailInfoView.from(message);
+    return MessageDetailInfoView.from( messageEntity );
   }
 
   @Transactional
@@ -96,23 +96,23 @@ public class MessageService {
       Long memberId,
       UpdateMessageRequest updateMessageRequest
   ) {
-    Message message = findMessageById(messageId);
+    MessageEntity messageEntity = findMessageById(messageId);
 
-    if(!message.getFrom().getId().equals(memberId)) {
+    if(!messageEntity.getFrom().getId().equals(memberId)) {
       throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_UPDATE);
     }
 
-    if(!ZonedDateTime.now().isBefore(message.getOpenDate())) {
+    if(!ZonedDateTime.now().isBefore( messageEntity.getOpenDate())) {
       throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_UPDATE_AFTER_DATE);
     }
 
-    Message updatedMessage = message.update(
+    MessageEntity updatedMessageEntity = messageEntity.update(
         updateMessageRequest.getContent(),
         updateMessageRequest.getColorCode(),
         ZonedDateTime.parse(updateMessageRequest.getOpenDate())
     );
 
-    Message result = messageRepository.save(updatedMessage);
+    MessageEntity result = messageRepository.save( updatedMessageEntity );
     return MessageDetailInfoView.from(result);
   }
 
@@ -121,20 +121,20 @@ public class MessageService {
       Long messageId,
       Long memberId
   ) {
-    Message message = findMessageById(messageId);
+    MessageEntity messageEntity = findMessageById(messageId);
 
-    if(!message.getFrom().getId().equals(memberId)) {
+    if(!messageEntity.getFrom().getId().equals(memberId)) {
       throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_DELETE);
     }
 
-    MessageDeleted deletedMessage = messageAssembler.toMessageDeletedEntity(message);
+    MessageDeleteEntity deletedMessage = messageAssembler.toMessageDeletedEntity( messageEntity );
     messageDeletedRepository.save(deletedMessage);
-    messageRepository.delete(message);
+    messageRepository.delete( messageEntity );
 
     return MessageExistInfoView.of(messageId, false);
   }
 
-  private Message findMessageById(Long messageId) {
+  private MessageEntity findMessageById(Long messageId) {
     return messageRepository.findById(messageId)
         .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
   }

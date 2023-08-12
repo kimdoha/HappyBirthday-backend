@@ -6,7 +6,7 @@ import com.rocket.birthday.api.auth.response.KakaoUserInfoView;
 import com.rocket.birthday.api.member.response.MemberExistInfoView;
 import com.rocket.birthday.service.member.mapper.MemberAssembler;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
-import com.rocket.birthday.model.member.Member;
+import com.rocket.birthday.model.member.MemberEntity;
 import com.rocket.birthday.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class MemberService {
   private final MemberAssembler memberAssembler;
 
   @Transactional(readOnly = true)
-  public Member findOne(Long id) {
+  public MemberEntity findOne(Long id) {
     return memberRepository.findById(id)
         .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
   }
@@ -33,16 +33,16 @@ public class MemberService {
       String nickname
   ) {
 
-    Member member = memberRepository.findByNickname(nickname)
+    MemberEntity memberEntity = memberRepository.findByNickname(nickname)
         .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-    return MemberExistInfoView.from(member.getId());
+    return MemberExistInfoView.from( memberEntity.getId());
   }
 
   @Transactional
-  public Member create(KakaoUserInfoView kakaoUserInfo) {
+  public MemberEntity create(KakaoUserInfoView kakaoUserInfo) {
 
-    Member member = memberAssembler.toMemberEntity(kakaoUserInfo);
-    return memberRepository.save(member);
+    MemberEntity memberEntity = memberAssembler.toMemberEntity(kakaoUserInfo);
+    return memberRepository.save( memberEntity );
   }
 }

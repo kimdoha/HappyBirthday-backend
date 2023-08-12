@@ -1,9 +1,7 @@
 package com.rocket.birthday.api.message.request;
 
 
-import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
-
-import com.rocket.birthday.model.member.Member;
+import com.rocket.birthday.model.member.MemberEntity;
 import com.rocket.birthday.service.message.dto.CreateMessageCommand;
 import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
@@ -22,8 +20,8 @@ public class PostMessageRequest {
   private Long receiverId;
 
   public CreateMessageCommand toCommand(
-      Member sender,
-      Member receiver
+      MemberEntity sender,
+      MemberEntity receiver
   ) {
     return CreateMessageCommand.builder()
         .content(this.content)

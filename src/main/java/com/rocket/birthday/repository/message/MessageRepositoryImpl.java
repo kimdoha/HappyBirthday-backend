@@ -2,8 +2,8 @@ package com.rocket.birthday.repository.message;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.rocket.birthday.model.message.Message;
-import com.rocket.birthday.model.message.QMessage;
+import com.rocket.birthday.model.message.MessageEntity;
+import com.rocket.birthday.model.message.QMessageEntity;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -22,20 +22,20 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom{
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public Slice<Message> findSliceByOpenDate(Pageable page) {
+  public Slice<MessageEntity> findSliceByOpenDate(Pageable page) {
     var now = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS);
 
-    List<Message> messages = queryFactory.select(QMessage.message)
-        .from(QMessage.message)
-        .where(QMessage.message.openDate.between(now, now.plusDays(1)))
+    List<MessageEntity> messageEntities = queryFactory.select(QMessageEntity.messageEntity)
+        .from(QMessageEntity.messageEntity)
+        .where(QMessageEntity.messageEntity.openDate.between(now, now.plusDays(1)))
         .offset((long) page.getPageNumber() * page.getPageSize())
         .limit(page.getPageSize() + 1)
         .fetch();
 
     return new SliceImpl<>(
-        messages.stream().limit(page.getPageSize()).toList(),
+        messageEntities.stream().limit(page.getPageSize()).toList(),
         page,
-        messages.size() > page.getPageSize()
+        messageEntities.size() > page.getPageSize()
     );
   }
 }

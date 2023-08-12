@@ -1,8 +1,6 @@
 package com.rocket.birthday.api.message.response;
 
-import static com.rocket.birthday.common.constant.BirthdayConstants.SEOUL_ZONEID;
-
-import com.rocket.birthday.model.message.Message;
+import com.rocket.birthday.model.message.MessageEntity;
 import java.time.ZonedDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,15 +19,15 @@ public class MessageDetailInfoView {
   private ZonedDateTime openDate;
   private ZonedDateTime createdAt;
 
-  public static MessageDetailInfoView from(Message message) {
+  public static MessageDetailInfoView from(MessageEntity messageEntity) {
     return MessageDetailInfoView.builder()
-        .id(message.getId())
-        .content(message.getContent())
-        .colorCode(message.getColorCode())
-        .openDate(message.getOpenDate())
-        .to(message.getTo() == null ? null : message.getTo().getNickname())
-        .from(message.getFrom().getNickname())
-        .createdAt(message.getCreatedAt())
+        .id( messageEntity.getId())
+        .content( messageEntity.getContent())
+        .colorCode( messageEntity.getColorCode())
+        .openDate( messageEntity.getOpenDate())
+        .to( messageEntity.getTo() == null ? null : messageEntity.getTo().getNickname())
+        .from( messageEntity.getFrom().getNickname())
+        .createdAt( messageEntity.getCreatedAt())
         .build();
   }
 }
