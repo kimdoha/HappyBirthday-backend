@@ -5,6 +5,7 @@ import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageDetailInfoView;
 import com.rocket.birthday.api.message.response.ModifiedMessageListView;
+import com.rocket.birthday.api.message.response.SentMessageListView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.service.member.dto.MemberDetails;
 import com.rocket.birthday.service.message.MessageService;
@@ -57,6 +58,19 @@ public class MessageController {
   ) {
     return messageService.getModifiableAllMessages(memberDetails.getMemberId(), PageRequest.of(page, limit));
   }
+
+  @GetMapping("/sent-messages")
+  public SentMessageListView getSentMessages(
+      @RequestParam Integer page,
+      @RequestParam Integer limit,
+      @AuthenticationPrincipal MemberDetails memberDetails
+  ) {
+    return messageService.getSentAllMessages(
+        memberDetails.getMemberId(),
+        PageRequest.of(page, limit)
+    );
+  }
+
 
   @GetMapping("/message/{id}")
   public MessageDetailInfoView getMessageDetailInfo(

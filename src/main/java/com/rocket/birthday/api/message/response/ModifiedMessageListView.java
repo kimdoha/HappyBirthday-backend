@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class ModifiedMessageListView {
-  private List<ModifiedMessageInfoView> messages;
+  private List<MessageInfoView> messages;
   private OffsetPagingInfoView page;
 
   public static ModifiedMessageListView of(
@@ -25,7 +25,7 @@ public class ModifiedMessageListView {
     return ModifiedMessageListView.builder()
         .messages(
             messageEntities.stream().map((messageEntity) ->
-              ModifiedMessageInfoView.builder()
+              MessageInfoView.builder()
                   .id(messageEntity.getId())
                   .content(messageEntity.getContent())
                   .to(messageEntity.getTo() == null ? null : messageEntity.getTo().getNickname())

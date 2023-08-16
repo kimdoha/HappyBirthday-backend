@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 public interface MessageRepositoryCustom {
-  Slice<MessageEntity> findSliceByTodayOpenDate(Pageable page);
-  Slice<MessageEntity> findSliceOpenDateAfterToday(Long memberId, Pageable page);
+  Slice<MessageEntity> findOpenDateIsTodaySlice(Pageable page);
+  Slice<MessageEntity> findOpenDateIsAfterTodaySlice(Long memberId, Pageable page);
+  Slice<MessageEntity> findSentMessageSlice(Long memberId, Pageable page);
 }

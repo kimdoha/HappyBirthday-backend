@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class ModifiedMessageInfoView {
+public class MessageInfoView {
   private Long id;
   private String content;
   private String to;
