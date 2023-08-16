@@ -40,13 +40,13 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom{
   }
 
   @Override
-  public Slice<MessageEntity> findSliceBeforeOpenDate(Long memberId, Pageable page) {
+  public Slice<MessageEntity> findSliceOpenDateAfterToday(Long memberId, Pageable page) {
     var now = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS);
 
     List<MessageEntity> messageEntities = queryFactory.select(QMessageEntity.messageEntity)
         .from(QMessageEntity.messageEntity)
         .where(QMessageEntity.messageEntity.from.id.eq(memberId)
-            .and(QMessageEntity.messageEntity.openDate.before(now)))
+            .and(QMessageEntity.messageEntity.openDate.after(now)))
         .offset((long) page.getPageNumber() * page.getPageSize())
         .limit(page.getPageSize() + 1)
         .fetch();

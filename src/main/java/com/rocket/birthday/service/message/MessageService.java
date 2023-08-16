@@ -89,7 +89,7 @@ public class MessageService {
     MemberEntity memberEntity = memberRepository.findById(memberId)
         .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-    Slice<MessageEntity> messageEntities = messageRepository.findSliceBeforeOpenDate(memberId, page);
+    Slice<MessageEntity> messageEntities = messageRepository.findSliceOpenDateAfterToday(memberId, page);
 
     if(!messageEntities.hasContent()) {
       throw new MessageNotFoundException(MODIFIED_MESSAGE_NOT_FOUND);
