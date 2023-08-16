@@ -1,5 +1,6 @@
 package com.rocket.birthday.api.message.response;
 
+import com.rocket.birthday.common.dto.OffsetPagingInfoView;
 import com.rocket.birthday.model.message.MessageEntity;
 import java.util.List;
 import lombok.AccessLevel;
@@ -14,17 +15,8 @@ import org.springframework.data.domain.Pageable;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class TodayMessageListView {
-  private List<MessageInfoView> messages;
-  private PageInfo page;
-
-  @Getter
-  @Builder
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  @NoArgsConstructor
-  public static class PageInfo {
-    private Integer offset;
-    private Integer limit;
-  }
+  private List<TodayMessageInfoView> messages;
+  private OffsetPagingInfoView page;
 
   public static TodayMessageListView of(
       List<MessageEntity> messageEntities,
@@ -32,12 +24,8 @@ public class TodayMessageListView {
   ) {
     return TodayMessageListView.builder()
         .messages(
-            messageEntities.stream().map((message) -> MessageInfoView.from(message)).toList())
-        .page(
-            PageInfo.builder()
-                .offset(page.getPageNumber() * page.getPageSize())
-                .limit(page.getPageSize())
-                .build())
+            messageEntities.stream().map((message) -> TodayMessageInfoView.from(message)).toList())
+        .page( OffsetPagingInfoView.of( page.getPageNumber() * page.getPageSize(), page.getPageSize() ) )
         .build();
   }
 }

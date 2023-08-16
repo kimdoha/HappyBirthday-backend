@@ -5,5 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 public interface MessageRepositoryCustom {
-  Slice<MessageEntity> findSliceByOpenDate(Pageable page);
+  Slice<MessageEntity> findSliceByTodayOpenDate(Pageable page);
+  Slice<MessageEntity> findSliceBeforeOpenDate(Long memberId, Pageable page);
 }

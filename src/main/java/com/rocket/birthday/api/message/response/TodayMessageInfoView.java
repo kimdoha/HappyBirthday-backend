@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class MessageInfoView {
+public class TodayMessageInfoView {
   private Long id;
   private String content;
   private String colorCode;
   private String from;
 
-  public static MessageInfoView from(MessageEntity messageEntity) {
-    return MessageInfoView.builder()
+  public static TodayMessageInfoView from(MessageEntity messageEntity) {
+    return TodayMessageInfoView.builder()
         .id( messageEntity.getId())
         .content( messageEntity.getContent())
         .colorCode( messageEntity.getColorCode())

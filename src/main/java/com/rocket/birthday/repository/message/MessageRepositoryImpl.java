@@ -22,12 +22,31 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom{
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public Slice<MessageEntity> findSliceByOpenDate(Pageable page) {
+  public Slice<MessageEntity> findSliceByTodayOpenDate(Pageable page) {
     var now = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS);
 
     List<MessageEntity> messageEntities = queryFactory.select(QMessageEntity.messageEntity)
         .from(QMessageEntity.messageEntity)
         .where(QMessageEntity.messageEntity.openDate.between(now, now.plusDays(1)))
+        .offset((long) page.getPageNumber() * page.getPageSize())
+        .limit(page.getPageSize() + 1)
+        .fetch();
+
+    return new SliceImpl<>(
+        messageEntities.stream().limit(page.getPageSize()).toList(),
+        page,
+        messageEntities.size() > page.getPageSize()
+    );
+  }
+
+  @Override
+  public Slice<MessageEntity> findSliceBeforeOpenDate(Long memberId, Pageable page) {
+    var now = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS);
+
+    List<MessageEntity> messageEntities = queryFactory.select(QMessageEntity.messageEntity)
+        .from(QMessageEntity.messageEntity)
+        .where(QMessageEntity.messageEntity.from.id.eq(memberId)
+            .and(QMessageEntity.messageEntity.openDate.before(now)))
         .offset((long) page.getPageNumber() * page.getPageSize())
         .limit(page.getPageSize() + 1)
         .fetch();

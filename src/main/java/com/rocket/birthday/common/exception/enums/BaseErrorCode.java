@@ -33,6 +33,7 @@ public enum BaseErrorCode {
   NOT_AVAILABLE_MESSAGE_CREATE_BEFORE_NOW(CONFLICT, "생일 메세지 오픈 날짜는 현재 시각 이후여야 합니다."),
   MESSAGE_NOT_FOUND(NOT_FOUND, "해당 메세지를 찾을 수 없습니다."),
   TODAY_MESSAGE_NOT_FOUND(NOT_FOUND, "오늘의 생일 메세지를 찾을 수 없습니다."),
+  MODIFIED_MESSAGE_NOT_FOUND(NOT_FOUND, "수정 가능한 메세지를 찾을 수 없습니다."),
   NOT_AVAILABLE_MESSAGE_UPDATE(CONFLICT, "생일 메세지는 작성자만 수정할 수 있습니다."),
   NOT_AVAILABLE_MESSAGE_UPDATE_AFTER_DATE(CONFLICT, "메세지 오픈 날짜 이전에만 수정이 가능합니다."),
   NOT_AVAILABLE_MESSAGE_DELETE(CONFLICT, "생일 메세지는 작성자만 삭제할 수 있습니다."),

@@ -7,6 +7,7 @@ import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageDetailInfoView;
+import com.rocket.birthday.api.message.response.ModifiedMessageListView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
 import com.rocket.birthday.model.member.MemberEntity;
@@ -74,13 +75,27 @@ public class MessageService {
 
   @Transactional(readOnly = true)
   public TodayMessageListView getTodayAllMessages(Pageable page) {
-    Slice<MessageEntity> messages = messageRepository.findSliceByOpenDate(page);
+    Slice<MessageEntity> messages = messageRepository.findSliceByTodayOpenDate(page);
 
     if(!messages.hasContent()) {
       throw new MessageNotFoundException(TODAY_MESSAGE_NOT_FOUND);
     }
 
     return TodayMessageListView.of(messages.stream().toList(), page);
+  }
+
+  @Transactional(readOnly = true)
+  public ModifiedMessageListView getModifiableAllMessages(Long memberId, Pageable page) {
+    MemberEntity memberEntity = memberRepository.findById(memberId)
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+
+    Slice<MessageEntity> messageEntities = messageRepository.findSliceBeforeOpenDate(memberId, page);
+
+    if(!messageEntities.hasContent()) {
+      throw new MessageNotFoundException(MODIFIED_MESSAGE_NOT_FOUND);
+    }
+
+    return  ModifiedMessageListView.of(messageEntities.getContent(), page);
   }
 
   @Transactional(readOnly = true)
