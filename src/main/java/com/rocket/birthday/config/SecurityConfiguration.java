@@ -50,7 +50,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests()
         .requestMatchers(
             "/api/v1/auth/**",
-             "/api/v1/messages/**"
+             "/api/v1/today-messages/**"
         ).permitAll()
         .anyRequest()
         .authenticated();

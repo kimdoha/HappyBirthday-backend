@@ -7,8 +7,13 @@ import com.rocket.birthday.api.message.request.PostMessageRequest;
 import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageDetailInfoView;
+import com.rocket.birthday.api.message.response.ModifiedMessageListView;
+import com.rocket.birthday.api.message.response.MyMessageInfoView;
+import com.rocket.birthday.api.message.response.ReceivedMessageListView;
+import com.rocket.birthday.api.message.response.SentMessageListView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
+import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import com.rocket.birthday.model.member.MemberEntity;
 import com.rocket.birthday.model.message.MessageEntity;
 import com.rocket.birthday.repository.member.MemberRepository;
@@ -23,6 +28,7 @@ import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.bridge.Message;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -51,9 +57,9 @@ public class MessageService {
       receiver = memberRepository.findById(postMessageRequest.getReceiverId())
           .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
 
-//      if(sender.getId().equals(receiver.getId())){
-//        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
-//      }
+      if(sender.getId().equals(receiver.getId())){
+        throw new InvalidMessageRequestException(NOT_AVAILABLE_MESSAGE_CREATE);
+      }
     }
 
     if(postMessageRequest.getOpenDate().isBefore(ZonedDateTime.now(SEOUL_ZONEID))) {
@@ -74,7 +80,7 @@ public class MessageService {
 
   @Transactional(readOnly = true)
   public TodayMessageListView getTodayAllMessages(Pageable page) {
-    Slice<MessageEntity> messages = messageRepository.findSliceByOpenDate(page);
+    Slice<MessageEntity> messages = messageRepository.findOpenDateIsTodaySlice(page);
 
     if(!messages.hasContent()) {
       throw new MessageNotFoundException(TODAY_MESSAGE_NOT_FOUND);
@@ -82,6 +88,56 @@ public class MessageService {
 
     return TodayMessageListView.of(messages.stream().toList(), page);
   }
+
+  @Transactional(readOnly = true)
+  public MyMessageInfoView getMyMessageInfo(Long memberId) {
+    memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException( MEMBER_NOT_FOUND ));
+
+    return messageRepository.findMyMessageInfo(memberId);
+  }
+
+  @Transactional(readOnly = true)
+  public ModifiedMessageListView getModifiableAllMessages(Long memberId, Pageable page) {
+    memberRepository.findById(memberId)
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+
+    Slice<MessageEntity> messageEntities = messageRepository.findOpenDateIsAfterTodaySlice(memberId, page);
+
+    if(!messageEntities.hasContent()) {
+      throw new MessageNotFoundException(MODIFIED_MESSAGE_NOT_FOUND);
+    }
+
+    return  ModifiedMessageListView.of(messageEntities.getContent(), page);
+  }
+
+  @Transactional(readOnly = true)
+  public SentMessageListView getSentAllMessages(Long memberId, Pageable page) {
+    memberRepository.findById(memberId)
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+
+    Slice<MessageEntity> messageEntities = messageRepository.findSentMessageSlice(memberId, page);
+
+    if(!messageEntities.hasContent()) {
+      throw new MessageNotFoundException(SENT_MESSAGE_NOT_FOUND);
+    }
+
+    return SentMessageListView.of(messageEntities.getContent(), page);
+  }
+
+  @Transactional(readOnly = true)
+  public ReceivedMessageListView getReceivedAllMessages(Long memberId, Pageable page) {
+    memberRepository.findById(memberId)
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+
+    Slice<MessageEntity> messageEntities = messageRepository.findReceivedMessageSlice(memberId, page);
+
+    if(!messageEntities.hasContent()) {
+      throw new MessageNotFoundException(RECEIVED_MESSAGE_NOT_FOUND);
+    }
+
+    return ReceivedMessageListView.of(messageEntities.getContent(), page);
+  }
+
 
   @Transactional(readOnly = true)
   public MessageDetailInfoView getMessageInfo(Long id) {
@@ -138,4 +194,5 @@ public class MessageService {
     return messageRepository.findById(messageId)
         .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
   }
+
 }

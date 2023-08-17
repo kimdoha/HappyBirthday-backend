@@ -15,16 +15,22 @@ import org.springframework.data.domain.Pageable;
 @SuperBuilder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class TodayMessageListView extends OffsetPagingView {
-  private List<TodayMessageInfoView> messages;
-  public static TodayMessageListView of(
+public class ModifiedMessageListView extends OffsetPagingView {
+  private List<MessageInfoView> messages;
+  public static ModifiedMessageListView of(
       List<MessageEntity> messageEntities,
       Pageable page
   ) {
-
-    return TodayMessageListView.builder()
+    return ModifiedMessageListView.builder()
         .messages(
-            messageEntities.stream().map((message) -> TodayMessageInfoView.from(message)).toList())
+            messageEntities.stream().map((messageEntity) ->
+              MessageInfoView.builder()
+                  .id(messageEntity.getId())
+                  .content(messageEntity.getContent())
+                  .to(messageEntity.getTo() == null ? null : messageEntity.getTo().getNickname())
+                  .createdAt(messageEntity.getCreatedAt())
+                  .build()
+            ).toList())
         .page(
             OffsetPagingInfoView.of(
                 page.getPageNumber() * page.getPageSize(),
