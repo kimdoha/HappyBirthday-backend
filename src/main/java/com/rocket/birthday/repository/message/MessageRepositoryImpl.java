@@ -74,4 +74,21 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom{
         messageEntities.size() > page.getPageSize()
     );
   }
+
+  @Override
+  public Slice<MessageEntity> findReceivedMessageSlice(Long memberId, Pageable page) {
+
+    List<MessageEntity> messageEntities = queryFactory.select(QMessageEntity.messageEntity)
+        .from(QMessageEntity.messageEntity)
+        .where(QMessageEntity.messageEntity.to.id.eq(memberId))
+        .offset((long) page.getPageNumber() * page.getPageSize())
+        .limit(page.getPageSize() + 1)
+        .fetch();
+
+    return new SliceImpl<>(
+        messageEntities.stream().limit(page.getPageSize()).toList(),
+        page,
+        messageEntities.size() > page.getPageSize()
+    );
+  }
 }

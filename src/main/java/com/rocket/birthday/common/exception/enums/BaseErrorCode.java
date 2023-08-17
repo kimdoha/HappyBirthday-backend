@@ -35,6 +35,7 @@ public enum BaseErrorCode {
   TODAY_MESSAGE_NOT_FOUND(NOT_FOUND, "오늘의 생일 메세지를 찾을 수 없습니다."),
   MODIFIED_MESSAGE_NOT_FOUND(NOT_FOUND, "수정 가능한 메세지를 찾을 수 없습니다."),
   SENT_MESSAGE_NOT_FOUND(NOT_FOUND, "작성한 메세지를 찾을 수 없습니다."),
+  RECEIVED_MESSAGE_NOT_FOUND(NOT_FOUND, "받은 메세지를 찾을 수 없습니다."),
   NOT_AVAILABLE_MESSAGE_UPDATE(CONFLICT, "생일 메세지는 작성자만 수정할 수 있습니다."),
   NOT_AVAILABLE_MESSAGE_UPDATE_AFTER_DATE(CONFLICT, "메세지 오픈 날짜 이전에만 수정이 가능합니다."),
   NOT_AVAILABLE_MESSAGE_DELETE(CONFLICT, "생일 메세지는 작성자만 삭제할 수 있습니다."),

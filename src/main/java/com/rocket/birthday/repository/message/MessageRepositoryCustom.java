@@ -8,4 +8,6 @@ public interface MessageRepositoryCustom {
   Slice<MessageEntity> findOpenDateIsTodaySlice(Pageable page);
   Slice<MessageEntity> findOpenDateIsAfterTodaySlice(Long memberId, Pageable page);
   Slice<MessageEntity> findSentMessageSlice(Long memberId, Pageable page);
+  Slice<MessageEntity> findReceivedMessageSlice(Long memberId, Pageable page);
+
 }

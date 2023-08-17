@@ -8,6 +8,7 @@ import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageDetailInfoView;
 import com.rocket.birthday.api.message.response.ModifiedMessageListView;
+import com.rocket.birthday.api.message.response.ReceivedMessageListView;
 import com.rocket.birthday.api.message.response.SentMessageListView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
@@ -25,6 +26,7 @@ import com.rocket.birthday.service.message.vo.MessageType;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.bridge.Message;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -112,6 +114,21 @@ public class MessageService {
 
     return SentMessageListView.of(messageEntities.getContent(), page);
   }
+
+  @Transactional(readOnly = true)
+  public ReceivedMessageListView getReceivedAllMessages(Long memberId, Pageable page) {
+    memberRepository.findById(memberId)
+        .orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND));
+
+    Slice<MessageEntity> messageEntities = messageRepository.findReceivedMessageSlice(memberId, page);
+
+    if(!messageEntities.hasContent()) {
+      throw new MessageNotFoundException(RECEIVED_MESSAGE_NOT_FOUND);
+    }
+
+    return ReceivedMessageListView.of(messageEntities.getContent(), page);
+  }
+
 
   @Transactional(readOnly = true)
   public MessageDetailInfoView getMessageInfo(Long id) {
