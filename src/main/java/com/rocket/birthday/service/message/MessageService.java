@@ -8,10 +8,12 @@ import com.rocket.birthday.api.message.request.UpdateMessageRequest;
 import com.rocket.birthday.api.message.response.MessageExistInfoView;
 import com.rocket.birthday.api.message.response.MessageDetailInfoView;
 import com.rocket.birthday.api.message.response.ModifiedMessageListView;
+import com.rocket.birthday.api.message.response.MyMessageInfoView;
 import com.rocket.birthday.api.message.response.ReceivedMessageListView;
 import com.rocket.birthday.api.message.response.SentMessageListView;
 import com.rocket.birthday.api.message.response.TodayMessageListView;
 import com.rocket.birthday.common.exception.custom.member.MemberNotFoundException;
+import com.rocket.birthday.common.exception.enums.BaseErrorCode;
 import com.rocket.birthday.model.member.MemberEntity;
 import com.rocket.birthday.model.message.MessageEntity;
 import com.rocket.birthday.repository.member.MemberRepository;
@@ -85,6 +87,13 @@ public class MessageService {
     }
 
     return TodayMessageListView.of(messages.stream().toList(), page);
+  }
+
+  @Transactional(readOnly = true)
+  public MyMessageInfoView getMyMessageInfo(Long memberId) {
+    memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException( MEMBER_NOT_FOUND ));
+
+    return messageRepository.findMyMessageInfo(memberId);
   }
 
   @Transactional(readOnly = true)
@@ -185,4 +194,5 @@ public class MessageService {
     return messageRepository.findById(messageId)
         .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
   }
+
 }
