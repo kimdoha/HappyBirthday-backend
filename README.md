@@ -5,8 +5,7 @@
 <br/><br/>
 
 <div align=center>
-특별한 생일 날에 나에게 온 생일 축하 메세지를 확인하고,<br>
-누군가에게 생일 축하 메세지를 전달하는 롤링 페이퍼 서비스<br>
+특별한 날에 생일 축하 메세지를 전달하는 롤링 페이퍼 서비스<br>
 <strong>Happy Birthday</strong>입니다.<br>
 </div>
 
